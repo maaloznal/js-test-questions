@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сложный тест по JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .question {
+        margin-bottom: 20px;
+      }
+      .question h3 {
+        margin-bottom: 10px;
+      }
+      .results {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+      .incorrect {
+        color: red;
+      }
+      .correct {
+        color: green;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <nav>
+    <a href="index.html">HOME</a><a href="test1.html">test1</a
+    ><a href="test2.html">test2</a><a href="test3.html">test3</a
+    ><a href="test4.html">test4</a><a href="test5.html">test5</a>
+  </nav>
+  <body>
+    <h1>Сложный тест по JavaScript</h1>
+    <form id="quiz">
+      <!-- Вопрос 1 -->
+      <div class="question">
+        <h3>
+          1. Что выведет следующий код: <code>console.log(typeof NaN);</code>?
+        </h3>
+        <label><input type="checkbox" name="q1" value="a" /> "number"</label
+        ><br />
+        <label><input type="checkbox" name="q1" value="b" /> "NaN"</label><br />
+        <label><input type="checkbox" name="q1" value="c" /> "undefined"</label
+        ><br />
+        <label><input type="checkbox" name="q1" value="d" /> "object"</label
+        ><br />
+      </div>
+
+      <!-- Вопрос 2 -->
+      <div class="question">
+        <h3>2. Какой из следующих методов изменяет исходный массив?</h3>
+        <label><input type="checkbox" name="q2" value="a" /> slice()</label
+        ><br />
+        <label><input type="checkbox" name="q2" value="b" /> splice()</label
+        ><br />
+        <label><input type="checkbox" name="q2" value="c" /> concat()</label
+        ><br />
+        <label><input type="checkbox" name="q2" value="d" /> map()</label><br />
+      </div>
+
+      <!-- Вопрос 3 -->
+      <div class="question">
+        <h3>3. Что такое "hoisting" в JavaScript?</h3>
+        <label
+          ><input type="checkbox" name="q3" value="a" /> Поднятие переменных и
+          функций в начало области видимости</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q3" value="b" /> Удаление неиспользуемых
+          переменных</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q3" value="c" /> Оптимизация кода
+          движком JavaScript</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q3" value="d" /> Создание глобальных
+          переменных</label
+        ><br />
+      </div>
+
+      <!-- Вопрос 4 -->
+      <div class="question">
+        <h3>
+          4. Что выведет следующий код:
+          <code>let x = 5; console.log(x++ + ++x);</code>?
+        </h3>
+        <label><input type="checkbox" name="q4" value="a" /> 10</label><br />
+        <label><input type="checkbox" name="q4" value="b" /> 11</label><br />
+        <label><input type="checkbox" name="q4" value="c" /> 12</label><br />
+        <label><input type="checkbox" name="q4" value="d" /> 13</label><br />
+      </div>
+
+      <!-- Вопрос 5 -->
+      <div class="question">
+        <h3>
+          5. Какой метод используется для создания нового массива на основе
+          существующего?
+        </h3>
+        <label><input type="checkbox" name="q5" value="a" /> push()</label
+        ><br />
+        <label><input type="checkbox" name="q5" value="b" /> map()</label><br />
+        <label><input type="checkbox" name="q5" value="c" /> forEach()</label
+        ><br />
+        <label><input type="checkbox" name="q5" value="d" /> splice()</label
+        ><br />
+      </div>
+
+      <!-- Вопрос 6 -->
+      <div class="question">
+        <h3>6. Что такое "event delegation" в JavaScript?</h3>
+        <label
+          ><input type="checkbox" name="q6" value="a" /> Способ обработки
+          событий на родительском элементе</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q6" value="b" /> Удаление событий из
+          элементов</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q6" value="c" /> Создание новых
+          событий</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q6" value="d" /> Отмена событий по
+          умолчанию</label
+        ><br />
+      </div>
+
+      <!-- Вопрос 7 -->
+      <div class="question">
+        <h3>
+          7. Что выведет следующий код: <code>console.log([] + []);</code>?
+        </h3>
+        <label><input type="checkbox" name="q7" value="a" /> "[]"</label><br />
+        <label><input type="checkbox" name="q7" value="b" /> ""</label><br />
+        <label><input type="checkbox" name="q7" value="c" /> "undefined"</label
+        ><br />
+        <label><input type="checkbox" name="q7" value="d" /> Ошибка</label
+        ><br />
+      </div>
+
+      <!-- Вопрос 8 -->
+      <div class="question">
+        <h3>
+          8. Какой метод используется для выполнения кода через определенный
+          интервал времени?
+        </h3>
+        <label><input type="checkbox" name="q8" value="a" /> setTimeout()</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q8" value="b" /> setInterval()</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q8" value="c" /> clearTimeout()</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q8" value="d" />
+          requestAnimationFrame()</label
+        ><br />
+      </div>
+
+      <!-- Вопрос 9 -->
+      <div class="question">
+        <h3>9. Что такое "IIFE" в JavaScript?</h3>
+        <label
+          ><input type="checkbox" name="q9" value="a" /> Функция, которая
+          вызывается автоматически</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q9" value="b" /> Функция, которая
+          возвращает объект</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q9" value="c" /> Функция, которая
+          работает только с массивами</label
+        ><br />
+        <label
+          ><input type="checkbox" name="q9" value="d" /> Функция, которая
+          создает замыкание</label
+        ><br />
+      </div>
+
+      <!-- Вопрос 10 -->
+      <div class="question">
+        <h3>
+          10. Что выведет следующий код:
+          <code>console.log(1 + "2" + "2");</code>?
+        </h3>
+        <label><input type="checkbox" name="q10" value="a" /> "122"</label
+        ><br />
+        <label><input type="checkbox" name="q10" value="b" /> "32"</label><br />
+        <label><input type="checkbox" name="q10" value="c" /> 5</label><br />
+        <label><input type="checkbox" name="q10" value="d" /> Ошибка</label
+        ><br />
+      </div>
+
+      <button type="button" onclick="checkAnswers()">Отправить ответы</button>
+    </form>
+
+    <div class="results" id="results"></div>
+
+    <script>
+      const correctAnswers = {
+        q1: ["a"], // Правильные ответы для вопроса 1
+        q2: ["b"], // Правильные ответы для вопроса 2
+        q3: ["a"], // Правильные ответы для вопроса 3
+        q4: ["c"], // Правильные ответы для вопроса 4
+        q5: ["b"], // Правильные ответы для вопроса 5
+        q6: ["a"], // Правильные ответы для вопроса 6
+        q7: ["b"], // Правильные ответы для вопроса 7
+        q8: ["b"], // Правильные ответы для вопроса 8
+        q9: ["a"], // Правильные ответы для вопроса 9
+        q10: ["a"], // Правильные ответы для вопроса 10
+      };
+
+      function checkAnswers() {
+        let score = 0;
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "";
+
+        for (const question in correctAnswers) {
+          const selected = [];
+          const inputs = document.querySelectorAll(
+            `input[name="${question}"]:checked`
+          );
+          const questionDiv = document.querySelector(
+            `.question input[name="${question}"]`
+          ).parentElement.parentElement;
+
+          inputs.forEach((input) => selected.push(input.value));
+
+          // Сравниваем выбранные ответы с правильными
+          if (arraysEqual(selected, correctAnswers[question])) {
+            score++;
+            questionDiv.classList.add("correct");
+            questionDiv.classList.remove("incorrect");
+          } else {
+            questionDiv.classList.add("incorrect");
+            questionDiv.classList.remove("correct");
+          }
+        }
+
+        resultsDiv.innerHTML = `Ваш результат: ${score} из ${
+          Object.keys(correctAnswers).length
+        }`;
+      }
+
+      // Функция для сравнения массивов
+      function arraysEqual(a, b) {
+        if (a.length !== b.length) return false;
+        for (let i = 0; i < a.length; i++) {
+          if (a[i] !== b[i]) return false;
+        }
+        return true;
+      }
+    </script>
+  </body>
+</html>
