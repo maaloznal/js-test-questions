@@ -85,3 +85,10 @@ nav {
   justify-content: center;
   gap: 40px;
 }
+
+@media (max-width: 768px) {
+  .btn {
+    position: fixed;
+    right: 0%;
+  }
+}
