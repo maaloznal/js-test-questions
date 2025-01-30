@@ -32,6 +32,21 @@ button:hover {
   right: 12%;
 }
 
+.draggable-btn {
+  position: absolute;
+  cursor: grab;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  user-select: none; /* Запрет выделения текста */
+}
+
+.draggable-btn:active {
+  cursor: grabbing;
+}
+
 h1 {
   text-align: center;
   color: #444;
