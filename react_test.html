@@ -61,20 +61,6 @@
         margin: 5px 0;
         color: #f44336;
       }
-      button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        font-size: 1em;
-        color: #fff;
-        background-color: #4caf50;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      button:hover {
-        background-color: #45a049;
-      }
       nav {
         display: flex;
         justify-content: center;
@@ -91,9 +77,11 @@
     </nav>
   </header>
   <body>
-    <h1>Тест по JavaScript</h1>
+    <h1>Тест по React</h1>
+    <div class="btn">
+      <button onclick="checkAnswers()">Проверить ответы</button>
+    </div>
     <form id="quiz"></form>
-    <button onclick="checkAnswers()">Проверить ответы</button>
     <div class="results" id="results" style="display: none">
       <h2>Результаты</h2>
       <p>Правильных ответов: <span id="correct-count">0</span></p>
@@ -1560,10 +1548,22 @@
         quizContainer.appendChild(questionDiv);
       });
 
+      let isChecked = false;
+
       function checkAnswers() {
         let correctCount = 0;
         let incorrectCount = 0;
         const incorrectAnswersList = [];
+
+        if (isChecked) {
+          // Если проверка уже была выполнена, сбрасываем стили и состояние
+          questions.forEach((q, index) => {
+            const questionDiv = quizContainer.children[index];
+            questionDiv.classList.remove("correct", "incorrect");
+          });
+          isChecked = false; // Сбрасываем флаг
+          return; // Выходим из функции
+        }
 
         questions.forEach((q, index) => {
           const questionDiv = quizContainer.children[index];
@@ -1584,6 +1584,8 @@
             incorrectAnswersList.push(q.question);
           }
         });
+
+        isChecked = true;
 
         const percentage = ((correctCount / questions.length) * 100).toFixed(2);
 

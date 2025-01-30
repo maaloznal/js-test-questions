@@ -3,3 +3,23 @@ nav {
   justify-content: center;
   gap: 40px;
 }
+button {
+  position: sticky;
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #45a049;
+}
+
+.btn {
+  position: fixed;
+  right: 40%;
+}
