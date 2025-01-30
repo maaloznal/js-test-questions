@@ -1493,20 +1493,13 @@
         const incorrectAnswersList = [];
 
         if (isChecked) {
+          // Если проверка уже была выполнена, сбрасываем стили и состояние
           questions.forEach((q, index) => {
             const questionDiv = quizContainer.children[index];
-            const wasCorrect = questionDiv.classList.contains("correct");
-
             questionDiv.classList.remove("correct", "incorrect");
-
-            questionDiv.querySelectorAll("input").forEach((input) => {
-              input.checked = wasCorrect && input.value === q.correct;
-            });
           });
-
-          document.getElementById("results").style.display = "none";
-          isChecked = false;
-          return;
+          isChecked = false; // Сбрасываем флаг
+          return; // Выходим из функции
         }
 
         questions.forEach((q, index) => {
