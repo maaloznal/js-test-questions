@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест по Vue3</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <header>
+    <nav>
+      <a href="index.html">JS Vanila Test</a
+      ><a href="react_test.html">React Test</a
+      ><a href="vue3_test.html">Vue3 Test</a>
+    </nav>
+  </header>
+  <body>
+    <h1>Тест по JavaScript</h1>
+    <div class="btn">
+      <button onclick="checkAnswers()">Проверить</button>
+    </div>
+    <form id="quiz"></form>
+    <div class="results" id="results" style="display: none">
+      <h2>Результаты</h2>
+      <p>Правильных ответов: <span id="correct-count">0</span></p>
+      <p>Неправильных ответов: <span id="incorrect-count">0</span></p>
+      <p>Процент правильных ответов: <span id="percentage">0</span>%</p>
+      <div class="incorrect-answers">
+        <h3>Неправильные ответы:</h3>
+        <ul id="incorrect-answers-list"></ul>
+      </div>
+    </div>
+    <script>
+      const questions = [
+        {
+          question:
+            "1. Что такое Vue 3 и каковы его основные преимущества перед Vue 2?",
+          options: [
+            "A) Vue 3 — это библиотека для работы с DOM, а Vue 2 — для работы с сервером.",
+            "B) Vue 3 — это новая версия фреймворка Vue, которая предлагает улучшенную производительность и Composition API.",
+            "C) Vue 3 — это язык программирования, а Vue 2 — это фреймворк.",
+            "D) Vue 3 — это устаревшая версия Vue, которая больше не поддерживается.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "2. Как создать экземпляр приложения в Vue 3?",
+          options: [
+            "A) new Vue({})",
+            "B) Vue.createApp({})",
+            "C) createApp({})",
+            "D) Vue.initApp({})",
+          ],
+          correct: "C",
+        },
+        {
+          question: "3. Что такое createApp и как его использовать?",
+          options: [
+            "A) Это функция для создания компонентов.",
+            "B) Это функция для создания экземпляра приложения Vue.",
+            "C) Это метод для создания глобальных переменных.",
+            "D) Это метод для создания серверных приложений.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "4. Как зарегистрировать глобальный компонент в Vue 3?",
+          options: [
+            "A) app.component('имя', компонент)",
+            "B) app.register('имя', компонент)",
+            "C) app.global('имя', компонент)",
+            "D) app.addComponent('имя', компонент)",
+          ],
+          correct: "A",
+        },
+        {
+          question: "5. Что такое v-bind и как его использовать?",
+          options: [
+            "A) Это директива для привязки данных к атрибутам HTML.",
+            "B) Это директива для создания циклов.",
+            "C) Это директива для условного рендеринга.",
+            "D) Это директива для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "6. Чем отличается v-if от v-show?",
+          options: [
+            "A) v-if удаляет элемент из DOM, а v-show скрывает его с помощью CSS.",
+            "B) v-if использует CSS, а v-show удаляет элемент из DOM.",
+            "C) v-if работает только с массивами, а v-show — с объектами.",
+            "D) v-if и v-show работают одинаково.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "7. Как работает директива v-for в Vue 3?",
+          options: [
+            "A) Она создает цикл для рендеринга списка элементов.",
+            "B) Она используется для условного рендеринга.",
+            "C) Она привязывает данные к атрибутам.",
+            "D) Она обрабатывает события.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "8. Что такое v-model в Vue 3 и как его использовать?",
+          options: [
+            "A) Это директива для двусторонней привязки данных.",
+            "B) Это директива для создания циклов.",
+            "C) Это директива для условного рендеринга.",
+            "D) Это директива для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "9. Как использовать v-model с кастомными компонентами?",
+          options: [
+            "A) Через props и emits.",
+            "B) Через data и methods.",
+            "C) Через computed и watch.",
+            "D) Через ref и reactive.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "10. Что такое v-on и как его использовать для обработки событий?",
+          options: [
+            "A) Это директива для привязки событий к методам.",
+            "B) Это директива для создания циклов.",
+            "C) Это директива для условного рендеринга.",
+            "D) Это директива для привязки данных.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "11. Как использовать модификаторы событий (например, .stop, .prevent)?",
+          options: [
+            "A) Через v-on:click.stop или v-on:submit.prevent.",
+            "B) Через v-bind:click.stop или v-bind:submit.prevent.",
+            "C) Через v-model:click.stop или v-model:submit.prevent.",
+            "D) Через v-for:click.stop или v-for:submit.prevent.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "12. Что такое v-slot и как его использовать?",
+          options: [
+            "A) Это директива для создания слотов в компонентах.",
+            "B) Это директива для создания циклов.",
+            "C) Это директива для условного рендеринга.",
+            "D) Это директива для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "13. Как использовать v-html для рендеринга HTML?",
+          options: [
+            'A) <div v-html="htmlContent"></div>',
+            'B) <div v-bind:html="htmlContent"></div>',
+            'C) <div v-model="htmlContent"></div>',
+            'D) <div v-for="htmlContent"></div>',
+          ],
+          correct: "A",
+        },
+        {
+          question: "14. Что такое v-cloak и зачем он нужен?",
+          options: [
+            "A) Он скрывает неотрендеренные элементы до завершения компиляции Vue.",
+            "B) Он используется для создания анимаций.",
+            "C) Он привязывает данные к атрибутам.",
+            "D) Он обрабатывает события.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "15. Как использовать v-pre?",
+          options: [
+            "A) <div v-pre>{{ rawContent }}</div>",
+            'B) <div v-bind:pre="rawContent"></div>',
+            'C) <div v-model="rawContent"></div>',
+            'D) <div v-for="rawContent"></div>',
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "16. Что такое v-text и чем он отличается от интерполяции {{ }}?",
+          options: [
+            "A) v-text заменяет содержимое элемента, а {{ }} добавляет текст.",
+            "B) v-text работает только с массивами, а {{ }} — с объектами.",
+            "C) v-text используется для обработки событий, а {{ }} — для привязки данных.",
+            "D) v-text и {{ }} работают одинаково.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "17. Как использовать v-once для однократного рендеринга?",
+          options: [
+            "A) <div v-once>{{ staticContent }}</div>",
+            'B) <div v-bind:once="staticContent"></div>',
+            'C) <div v-model="staticContent"></div>',
+            'D) <div v-for="staticContent"></div>',
+          ],
+          correct: "A",
+        },
+        {
+          question: "18. Что такое ref и как его использовать в шаблоне?",
+          options: [
+            "A) Это атрибут для получения ссылки на DOM-элемент или компонент.",
+            "B) Это метод для создания реактивных данных.",
+            "C) Это директива для условного рендеринга.",
+            "D) Это директива для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "19. Как использовать v-bind с CSS-переменными?",
+          options: [
+            "A) <div :style=\"{ '--color': colorVariable }\"></div>",
+            "B) <div v-bind:css=\"{ '--color': colorVariable }\"></div>",
+            "C) <div v-model:css=\"{ '--color': colorVariable }\"></div>",
+            "D) <div v-for:css=\"{ '--color': colorVariable }\"></div>",
+          ],
+          correct: "A",
+        },
+        {
+          question: "20. Что такое v-memo и зачем он нужен?",
+          options: [
+            "A) Это директива для оптимизации рендеринга, которая кэширует результат.",
+            "B) Это директива для создания циклов.",
+            "C) Это директива для условного рендеринга.",
+            "D) Это директива для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "21. Что такое Composition API и зачем он нужен?",
+          options: [
+            "A) Это способ организации кода в виде хуков и функций.",
+            "B) Это альтернатива Options API для более гибкой организации логики.",
+            "C) Это библиотека для работы с анимациями.",
+            "D) Это устаревший подход к разработке в Vue.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "22. Как использовать `setup()` в компоненте?",
+          options: [
+            "A) `setup()` — это функция, которая вызывается перед созданием компонента.",
+            "B) `setup()` — это метод для создания глобальных переменных.",
+            "C) `setup()` — это директива для условного рендеринга.",
+            "D) `setup()` — это метод для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "23. Что такое `ref` и как его использовать?",
+          options: [
+            "A) `ref` — это функция для создания реактивной переменной с примитивным значением.",
+            "B) `ref` — это метод для создания циклов.",
+            "C) `ref` — это директива для условного рендеринга.",
+            "D) `ref` — это метод для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "24. Что такое `reactive` и чем он отличается от `ref`?",
+          options: [
+            "A) `reactive` работает с объектами, а `ref` — с примитивами.",
+            "B) `reactive` — это устаревшая версия `ref`.",
+            "C) `reactive` используется только для обработки событий.",
+            "D) `reactive` и `ref` работают одинаково.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "25. Как использовать `computed` в Composition API?",
+          options: [
+            "A) `const value = computed(() => someValue)`",
+            "B) `const value = computed(someValue)`",
+            "C) `const value = computed = someValue`",
+            "D) `const value = computed: someValue`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "26. Что такое `watch` и как его использовать?",
+          options: [
+            "A) `watch` — это функция для отслеживания изменений реактивных данных.",
+            "B) `watch` — это метод для создания циклов.",
+            "C) `watch` — это директива для условного рендеринга.",
+            "D) `watch` — это метод для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "27. Чем отличается `watch` от `watchEffect`?",
+          options: [
+            "A) `watch` отслеживает конкретные значения, а `watchEffect` — все изменения внутри функции.",
+            "B) `watch` работает только с массивами, а `watchEffect` — с объектами.",
+            "C) `watch` и `watchEffect` работают одинаково.",
+            "D) `watch` — это устаревшая версия `watchEffect`.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "28. Как использовать `provide` и `inject` в Composition API?",
+          options: [
+            "A) `provide` — для передачи данных, `inject` — для их получения.",
+            "B) `provide` — для создания циклов, `inject` — для их обработки.",
+            "C) `provide` и `inject` используются только для обработки событий.",
+            "D) `provide` и `inject` работают только с глобальными переменными.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "29. Что такое `toRefs` и зачем он нужен?",
+          options: [
+            "A) `toRefs` преобразует реактивный объект в объект с `ref`.",
+            "B) `toRefs` — это метод для создания циклов.",
+            "C) `toRefs` — это директива для условного рендеринга.",
+            "D) `toRefs` — это метод для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "30. Как использовать `onMounted` и `onUnmounted`?",
+          options: [
+            "A) `onMounted` — для выполнения кода после монтирования, `onUnmounted` — перед удалением.",
+            "B) `onMounted` — для создания циклов, `onUnmounted` — для их обработки.",
+            "C) `onMounted` и `onUnmounted` используются только для обработки событий.",
+            "D) `onMounted` и `onUnmounted` работают только с глобальными переменными.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "31. Что такое `onBeforeMount` и `onUpdated`?",
+          options: [
+            "A) `onBeforeMount` — перед монтированием, `onUpdated` — после обновления.",
+            "B) `onBeforeMount` — для создания циклов, `onUpdated` — для их обработки.",
+            "C) `onBeforeMount` и `onUpdated` используются только для обработки событий.",
+            "D) `onBeforeMount` и `onUpdated` работают только с глобальными переменными.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "32. Как использовать `onErrorCaptured` для обработки ошибок?",
+          options: [
+            "A) `onErrorCaptured` — для перехвата ошибок в дочерних компонентах.",
+            "B) `onErrorCaptured` — для создания циклов.",
+            "C) `onErrorCaptured` — для условного рендеринга.",
+            "D) `onErrorCaptured` — для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "33. Что такое `onRenderTracked` и `onRenderTriggered`?",
+          options: [
+            "A) `onRenderTracked` — для отслеживания зависимостей, `onRenderTriggered` — для выявления изменений.",
+            "B) `onRenderTracked` — для создания циклов, `onRenderTriggered` — для их обработки.",
+            "C) `onRenderTracked` и `onRenderTriggered` используются только для обработки событий.",
+            "D) `onRenderTracked` и `onRenderTriggered` работают только с глобальными переменными.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "34. Как использовать `useStore` с Vuex в Composition API?",
+          options: [
+            "A) `const store = useStore()`",
+            "B) `const store = createStore()`",
+            "C) `const store = initStore()`",
+            "D) `const store = getStore()`",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "35. Как использовать `useRouter` и `useRoute` с Vue Router?",
+          options: [
+            "A) `const router = useRouter()`, `const route = useRoute()`",
+            "B) `const router = createRouter()`, `const route = createRoute()`",
+            "C) `const router = initRouter()`, `const route = initRoute()`",
+            "D) `const router = getRouter()`, `const route = getRoute()`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "36. Что такое `shallowRef` и `shallowReactive`?",
+          options: [
+            "A) `shallowRef` и `shallowReactive` — для поверхностной реактивности.",
+            "B) `shallowRef` и `shallowReactive` — для создания циклов.",
+            "C) `shallowRef` и `shallowReactive` — для условного рендеринга.",
+            "D) `shallowRef` и `shallowReactive` — для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "37. Как использовать `readonly` в Composition API?",
+          options: [
+            "A) `const state = readonly(reactive({}))`",
+            "B) `const state = readonly(ref({}))`",
+            "C) `const state = readonly = reactive({})`",
+            "D) `const state = readonly: reactive({})`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "38. Что такое `customRef` и как его использовать?",
+          options: [
+            "A) `customRef` — для создания кастомных реактивных ссылок.",
+            "B) `customRef` — для создания циклов.",
+            "C) `customRef` — для условного рендеринга.",
+            "D) `customRef` — для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "39. Как использовать `teleport` в Vue 3?",
+          options: [
+            "A) `<teleport to='body'><div>Content</div></teleport>`",
+            "B) `<teleport from='body'><div>Content</div></teleport>`",
+            "C) `<teleport target='body'><div>Content</div></teleport>`",
+            "D) `<teleport src='body'><div>Content</div></teleport>`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "40. Что такое `suspense` и как его использовать?",
+          options: [
+            "A) `suspense` — для асинхронной загрузки компонентов.",
+            "B) `suspense` — для создания циклов.",
+            "C) `suspense` — для условного рендеринга.",
+            "D) `suspense` — для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "41. Как использовать `defineComponent` в Vue 3?",
+          options: [
+            "A) `export default defineComponent({})`",
+            "B) `export default createComponent({})`",
+            "C) `export default initComponent({})`",
+            "D) `export default getComponent({})`",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "42. Как использовать `defineAsyncComponent` для ленивой загрузки компонентов?",
+          options: [
+            "A) `const AsyncComponent = defineAsyncComponent(() => import('./Component.vue'))`",
+            "B) `const AsyncComponent = lazyLoadComponent(() => import('./Component.vue'))`",
+            "C) `const AsyncComponent = loadComponent(() => import('./Component.vue'))`",
+            "D) `const AsyncComponent = loadAsync(() => import('./Component.vue'))`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "43. Что такое `v-model` и как его использовать в Vue 3?",
+          options: [
+            "A) `v-model` — это двусторонняя привязка данных.",
+            "B) `v-model` — это директива для условного рендеринга.",
+            "C) `v-model` — это метод для обработки событий.",
+            "D) `v-model` — это директива для циклов.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "44. Как использовать `v-bind` и `v-on` в Vue 3?",
+          options: [
+            "A) `v-bind` — для привязки атрибутов, `v-on` — для обработки событий.",
+            "B) `v-bind` и `v-on` используются только для условного рендеринга.",
+            "C) `v-bind` и `v-on` используются только для циклов.",
+            "D) `v-bind` и `v-on` работают одинаково.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "45. Как использовать `v-for` для перебора массивов?",
+          options: [
+            "A) `<div v-for='item in items' :key='item.id'>{{ item }}</div>`",
+            "B) `<div v-for='item of items' :key='item.id'>{{ item }}</div>`",
+            "C) `<div v-for='item each items' :key='item.id'>{{ item }}</div>`",
+            "D) `<div v-for='item in items' :key='item'>{{ item }}</div>`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "46. Что такое `v-show` и как он работает?",
+          options: [
+            "A) `v-show` — это директива для условного отображения элементов.",
+            "B) `v-show` — это директива для циклов.",
+            "C) `v-show` — это метод для обработки событий.",
+            "D) `v-show` — это директива для привязки данных.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "47. Как использовать `v-if` и `v-else` для условного рендеринга?",
+          options: [
+            "A) `<div v-if='condition'>True</div><div v-else>False</div>`",
+            "B) `<div v-if='condition'>True</div><div v-unless='condition'>False</div>`",
+            "C) `<div v-if='condition'>True</div><div v-else-if='condition'>False</div>`",
+            "D) `<div v-if='condition'>True</div><div v-else>False</div><div v-unless='condition'>Else</div>`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "48. Что такое `v-text` и как его использовать?",
+          options: [
+            "A) `v-text` — для вывода текста без интерполяции.",
+            "B) `v-text` — для привязки атрибутов.",
+            "C) `v-text` — для условного рендеринга.",
+            "D) `v-text` — для обработки событий.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "49. Как использовать `v-model` с компонентами?",
+          options: [
+            "A) `v-model` используется для двусторонней привязки между компонентами.",
+            "B) `v-model` используется только для обработки событий.",
+            "C) `v-model` используется для циклов.",
+            "D) `v-model` используется только для условного рендеринга.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "50. Как использовать `v-bind` для передачи нескольких атрибутов?",
+          options: [
+            "A) `<div v-bind='attrs'>Content</div>`",
+            "B) `<div v-bind:attrs='attrs'>Content</div>`",
+            "C) `<div v-bind='attrs' class='className'>Content</div>`",
+            "D) `<div v-bind='attrs' :key='key'>Content</div>`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "51. Что такое реактивность в Vue 3?",
+          options: [
+            "A) Это механизм автоматического обновления интерфейса при изменении данных.",
+            "B) Это способ создания анимаций.",
+            "C) Это метод для работы с серверными запросами.",
+            "D) Это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "52. Как работает реактивность в Vue 3?",
+          options: [
+            "A) Через прокси-объекты, которые отслеживают изменения данных.",
+            "B) Через глобальные переменные.",
+            "C) Через ручное обновление DOM.",
+            "D) Через использование сторонних библиотек.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "53. Что такое `ref` и как он работает?",
+          options: [
+            "A) `ref` создает реактивную ссылку на примитивное значение.",
+            "B) `ref` используется для создания циклов.",
+            "C) `ref` — это метод для обработки событий.",
+            "D) `ref` — это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "54. Что такое `reactive` и как он работает?",
+          options: [
+            "A) `reactive` создает реактивный объект.",
+            "B) `reactive` используется для создания циклов.",
+            "C) `reactive` — это метод для обработки событий.",
+            "D) `reactive` — это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "55. Чем отличается `ref` от `reactive`?",
+          options: [
+            "A) `ref` работает с примитивами, а `reactive` — с объектами.",
+            "B) `ref` и `reactive` работают одинаково.",
+            "C) `ref` — для обработки событий, а `reactive` — для создания циклов.",
+            "D) `ref` — устаревшая функция, а `reactive` — новая.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "56. Как использовать `toRef` для создания реактивной ссылки?",
+          options: [
+            "A) `const value = toRef(object, 'key')`",
+            "B) `const value = toRef = object.key`",
+            "C) `const value = toRef: object.key`",
+            "D) `const value = toRef(object.key)`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "57. Что такое `toRefs` и зачем он нужен?",
+          options: [
+            "A) `toRefs` преобразует реактивный объект в объект с `ref`.",
+            "B) `toRefs` используется для создания циклов.",
+            "C) `toRefs` — это метод для обработки событий.",
+            "D) `toRefs` — это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "58. Как использовать `computed` для создания вычисляемых свойств?",
+          options: [
+            "A) `const value = computed(() => someValue)`",
+            "B) `const value = computed(someValue)`",
+            "C) `const value = computed = someValue`",
+            "D) `const value = computed: someValue`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "59. Что такое `watch` и как его использовать?",
+          options: [
+            "A) `watch` отслеживает изменения реактивных данных.",
+            "B) `watch` используется для создания циклов.",
+            "C) `watch` — это метод для обработки событий.",
+            "D) `watch` — это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "60. Чем отличается `watch` от `watchEffect`?",
+          options: [
+            "A) `watch` отслеживает конкретные значения, а `watchEffect` — все изменения внутри функции.",
+            "B) `watch` и `watchEffect` работают одинаково.",
+            "C) `watch` — для обработки событий, а `watchEffect` — для создания циклов.",
+            "D) `watch` — устаревшая функция, а `watchEffect` — новая.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "61. Как использовать `watchEffect` для отслеживания изменений?",
+          options: [
+            "A) `watchEffect(() => { console.log(someValue) })`",
+            "B) `watchEffect(someValue => console.log(someValue))`",
+            "C) `watchEffect = () => console.log(someValue)`",
+            "D) `watchEffect: () => console.log(someValue)`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "62. Что такое `shallowRef` и `shallowReactive`?",
+          options: [
+            "A) `shallowRef` и `shallowReactive` — для поверхностной реактивности.",
+            "B) `shallowRef` и `shallowReactive` — для создания циклов.",
+            "C) `shallowRef` и `shallowReactive` — для обработки событий.",
+            "D) `shallowRef` и `shallowReactive` — устаревшие функции Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "63. Как использовать `readonly` для создания неизменяемых объектов?",
+          options: [
+            "A) `const state = readonly(reactive({}))`",
+            "B) `const state = readonly = reactive({})`",
+            "C) `const state = readonly: reactive({})`",
+            "D) `const state = readonly(reactive({}))`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "64. Что такое `customRef` и как его использовать?",
+          options: [
+            "A) `customRef` — для создания кастомных реактивных ссылок.",
+            "B) `customRef` — для создания циклов.",
+            "C) `customRef` — для обработки событий.",
+            "D) `customRef` — устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "65. Как использовать `triggerRef` для принудительного обновления реактивных данных?",
+          options: [
+            "A) `triggerRef(ref)`",
+            "B) `triggerRef = ref`",
+            "C) `triggerRef: ref`",
+            "D) `triggerRef(ref)`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "66. Как создать компонент в Vue 3?",
+          options: [
+            "a) Используя `defineComponent`.",
+            "b) Используя `createComponent`.",
+            "c) Используя `initComponent`.",
+            "d) Используя `getComponent`.",
+          ],
+          correct: "a",
+        },
+        {
+          question:
+            "67. Как передавать данные от родительского компонента к дочернему?",
+          options: [
+            "a) Через `props`.",
+            "b) Через `emits`.",
+            "c) Через `slots`.",
+            "d) Через `ref`.",
+          ],
+          correct: "a",
+        },
+        {
+          question:
+            "68. Как передавать данные от дочернего компонента к родительскому?",
+          options: [
+            "a) Через `emits`.",
+            "b) Через `props`.",
+            "c) Через `slots`.",
+            "d) Через `ref`.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "69. Что такое `props` и как их использовать?",
+          options: [
+            "a) `props` — это входные параметры компонента.",
+            "b) `props` — это события компонента.",
+            "c) `props` — это слоты компонента.",
+            "d) `props` — это методы компонента.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "70. Как валидировать `props` в Vue 3?",
+          options: [
+            "a) Используя объект с валидаторами в `defineProps`.",
+            "b) Используя `emits`.",
+            "c) Используя `slots`.",
+            "d) Используя `ref`.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "71. Что такое `emits` и как их использовать?",
+          options: [
+            "a) `emits` — это события, которые компонент может вызывать.",
+            "b) `emits` — это входные параметры компонента.",
+            "c) `emits` — это слоты компонента.",
+            "d) `emits` — это методы компонента.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "72. Как использовать слоты (slots) в Vue 3?",
+          options: [
+            "a) `<slot></slot>` в дочернем компоненте.",
+            'b) `<slot name="name"></slot>` в дочернем компоненте.',
+            "c) `<template v-slot:name>` в родительском компоненте.",
+            "d) Все вышеперечисленное.",
+          ],
+          correct: "d",
+        },
+        {
+          question: "73. Что такое scoped-слоты и как их использовать?",
+          options: [
+            "a) Scoped-слоты позволяют передавать данные из дочернего компонента в родительский.",
+            "b) Scoped-слоты используются для создания циклов.",
+            "c) Scoped-слоты — это устаревшая функция Vue 2.",
+            "d) Scoped-слоты используются для обработки событий.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "74. Как использовать динамические компоненты?",
+          options: [
+            'a) `<component :is="currentComponent"></component>`',
+            'b) `<component is="currentComponent"></component>`',
+            'c) `<component v-bind:is="currentComponent"></component>`',
+            'd) `<component v-model:is="currentComponent"></component>`',
+          ],
+          correct: "a",
+        },
+        {
+          question: "75. Что такое `keep-alive` и зачем он нужен?",
+          options: [
+            "a) `keep-alive` сохраняет состояние компонента при переключении.",
+            "b) `keep-alive` используется для создания циклов.",
+            "c) `keep-alive` — это устаревшая функция Vue 2.",
+            "d) `keep-alive` используется для обработки событий.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "76. Как использовать `transition` и `transition-group`?",
+          options: [
+            "a) `<transition>` для анимации одного элемента, `<transition-group>` для списка.",
+            "b) `<transition>` для списка, `<transition-group>` для одного элемента.",
+            "c) `<transition>` и `<transition-group>` работают одинаково.",
+            "d) `<transition>` и `<transition-group>` — устаревшие функции Vue 2.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "77. Как создать асинхронный компонент?",
+          options: [
+            "a) Используя `defineAsyncComponent`.",
+            "b) Используя `createAsyncComponent`.",
+            "c) Используя `initAsyncComponent`.",
+            "d) Используя `getAsyncComponent`.",
+          ],
+          correct: "a",
+        },
+        {
+          question: "78. Как использовать `defineAsyncComponent`?",
+          options: [
+            "a) `const AsyncComponent = defineAsyncComponent(() => import('Component.vue'))`",
+            "b) `const AsyncComponent = createAsyncComponent(() => import('Component.vue'))`",
+            "c) `const AsyncComponent = initAsyncComponent(() => import('Component.vue'))`",
+            "d) `const AsyncComponent = getAsyncComponent(() => import('Component.vue'))`",
+          ],
+          correct: "a",
+        },
+        {
+          question:
+            "79. Как использовать `defineComponent` для создания компонентов?",
+          options: [
+            "a) `export default defineComponent({})`",
+            "b) `export default createComponent({})`",
+            "c) `export default initComponent({})`",
+            "d) `export default getComponent({})`",
+          ],
+          correct: "a",
+        },
+        {
+          question: "80. Как использовать `defineProps` и `defineEmits`?",
+          options: [
+            "a) `defineProps` для объявления props, `defineEmits` для объявления событий.",
+            "b) `defineProps` для объявления событий, `defineEmits` для объявления props.",
+            "c) `defineProps` и `defineEmits` работают одинаково.",
+            "d) `defineProps` и `defineEmits` — устаревшие функции Vue 2.",
+          ],
+          correct: "a",
+        },
+        {
+          question:
+            "81. Как использовать `withDefaults` для значений по умолчанию?",
+          options: [
+            "a) `withDefaults(defineProps({ prop: String }), { prop: 'default' })`",
+            "b) `withDefaults(defineProps({ prop: String }), { prop: 'default' })`",
+            "c) `withDefaults(defineProps({ prop: String }), { prop: 'default' })`",
+            "d) `withDefaults(defineProps({ prop: String }), { prop: 'default' })`",
+          ],
+          correct: "a",
+        },
+        {
+          question: "82. Как использовать `useSlots` и `useAttrs`?",
+          options: [
+            "a) `const slots = useSlots()`, `const attrs = useAttrs()`",
+            "b) `const slots = createSlots()`, `const attrs = createAttrs()`",
+            "c) `const slots = initSlots()`, `const attrs = initAttrs()`",
+            "d) `const slots = getSlots()`, `const attrs = getAttrs()`",
+          ],
+          correct: "a",
+        },
+        {
+          question:
+            "83. Как использовать `useCssModule` для работы с CSS-модулями?",
+          options: [
+            "a) `const styles = useCssModule()`",
+            "b) `const styles = createCssModule()`",
+            "c) `const styles = initCssModule()`",
+            "d) `const styles = getCssModule()`",
+          ],
+          correct: "a",
+        },
+        {
+          question:
+            "84. Как использовать `useHead` для управления мета-тегами?",
+          options: [
+            "a) `useHead({ title: 'Page Title' })`",
+            "b) `createHead({ title: 'Page Title' })`",
+            "c) `initHead({ title: 'Page Title' })`",
+            "d) `getHead({ title: 'Page Title' })`",
+          ],
+          correct: "a",
+        },
+        {
+          question: "85. Как использовать `useFetch` для работы с API?",
+          options: [
+            "a) `const { data } = useFetch('/api/data')`",
+            "b) `const { data } = createFetch('/api/data')`",
+            "c) `const { data } = initFetch('/api/data')`",
+            "d) `const { data } = getFetch('/api/data')`",
+          ],
+          correct: "a",
+        },
+        {
+          question: "86. Как настроить Vue Router в Vue 3?",
+          options: [
+            "A) Используя createRouter и createWebHistory.",
+            "B) Используя initRouter и initWebHistory.",
+            "C) Используя getRouter и getWebHistory.",
+            "D) Используя defineRouter и defineWebHistory.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "87. Что такое динамические маршруты и как их использовать?",
+          options: [
+            "A) Маршруты с параметрами, например, /user/:id.",
+            "B) Маршруты, которые изменяются автоматически.",
+            "C) Маршруты, которые создаются на лету.",
+            "D) Маршруты, которые используются только для API.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "88. Как использовать router.push для навигации?",
+          options: [
+            "A) router.push('/path')",
+            "B) router.push = '/path'",
+            "C) router.push: '/path'",
+            "D) router.push('/path')",
+          ],
+          correct: "A",
+        },
+        {
+          question: "89. Что такое навигационные хуки и как их использовать?",
+          options: [
+            "A) Функции, которые выполняются до или после навигации.",
+            "B) Хуки для создания циклов.",
+            "C) Хуки для обработки событий.",
+            "D) Хуки для работы с API.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "90. Как защитить маршруты с помощью аутентификации?",
+          options: [
+            "A) Используя router.beforeEach для проверки доступа.",
+            "B) Используя router.afterEach для проверки доступа.",
+            "C) Используя router.push для проверки доступа.",
+            "D) Используя router.replace для проверки доступа.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "91. Как использовать router-link и router-view?",
+          options: [
+            "A) <router-link to='/path'>Link</router-link> и <router-view></router-view>.",
+            "B) <router-link href='/path'>Link</router-link> и <router-view></router-view>.",
+            "C) <router-link src='/path'>Link</router-link> и <router-view></router-view>.",
+            "D) <router-link from='/path'>Link</router-link> и <router-view></router-view>.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "92. Как использовать именованные маршруты?",
+          options: [
+            "A) <router-link :to='{ name: \"routeName\" }'>Link</router-link>.",
+            "B) <router-link :to='{ path: \"routeName\" }'>Link</router-link>.",
+            "C) <router-link :to='{ src: \"routeName\" }'>Link</router-link>.",
+            "D) <router-link :to='{ from: \"routeName\" }'>Link</router-link>.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "93. Что такое вложенные маршруты и как их использовать?",
+          options: [
+            "A) Маршруты, которые содержат другие маршруты.",
+            "B) Маршруты, которые создаются на лету.",
+            "C) Маршруты, которые используются только для API.",
+            "D) Маршруты, которые изменяются автоматически.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "94. Как использовать router.beforeEach и router.afterEach?",
+          options: [
+            "A) router.beforeEach((to, from, next) => {}) и router.afterEach((to, from) => {}).",
+            "B) router.beforeEach((to, from) => {}) и router.afterEach((to, from, next) => {}).",
+            "C) router.beforeEach((to) => {}) и router.afterEach((from) => {}).",
+            "D) router.beforeEach((next) => {}) и router.afterEach((next) => {}).",
+          ],
+          correct: "A",
+        },
+        {
+          question: "95. Что такое scrollBehavior и как его использовать?",
+          options: [
+            "A) Функция для управления поведением прокрутки при навигации.",
+            "B) Функция для создания циклов.",
+            "C) Функция для обработки событий.",
+            "D) Функция для работы с API.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "96. Как использовать ленивую загрузку маршрутов?",
+          options: [
+            "A) const LazyComponent = () => import('Component.vue').",
+            "B) const LazyComponent = import('Component.vue').",
+            "C) const LazyComponent = () => getComponent('Component.vue').",
+            "D) const LazyComponent = () => initComponent('Component.vue').",
+          ],
+          correct: "A",
+        },
+        {
+          question: "97. Как передавать параметры через маршруты?",
+          options: [
+            "A) router.push({ name: 'routeName', params: { id: 1 } }).",
+            "B) router.push({ name: 'routeName', query: { id: 1 } }).",
+            "C) router.push({ name: 'routeName', src: { id: 1 } }).",
+            "D) router.push({ name: 'routeName', from: { id: 1 } }).",
+          ],
+          correct: "A",
+        },
+        {
+          question: "98. Как использовать query-параметры в маршрутах?",
+          options: [
+            "A) router.push({ path: '/path', query: { id: 1 } }).",
+            "B) router.push({ path: '/path', params: { id: 1 } }).",
+            "C) router.push({ path: '/path', src: { id: 1 } }).",
+            "D) router.push({ path: '/path', from: { id: 1 } }).",
+          ],
+          correct: "A",
+        },
+        {
+          question: "99. Что такое $route и $router?",
+          options: [
+            "A) $route — текущий маршрут, $router — экземпляр роутера.",
+            "B) $route — экземпляр роутера, $router — текущий маршрут.",
+            "C) $route и $router — это одно и то же.",
+            "D) $route и $router — устаревшие функции Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "100. Как использовать router.replace и router.go?",
+          options: [
+            "A) router.replace('/path') для замены текущего маршрута и router.go(1) для навигации вперед.",
+            "B) router.replace('/path') для навигации вперед и router.go(1) для замены текущего маршрута.",
+            "C) router.replace('/path') и router.go(1) работают одинаково.",
+            "D) router.replace('/path') и router.go(1) — устаревшие функции Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "101. Что такое Vuex и зачем он нужен?",
+          options: [
+            "A) Vuex — это библиотека для управления состоянием приложения.",
+            "B) Vuex — это библиотека для работы с API.",
+            "C) Vuex — это библиотека для создания анимаций.",
+            "D) Vuex — это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "102. Как настроить Vuex в Vue 3?",
+          options: [
+            "A) Используя `createStore`.",
+            "B) Используя `initStore`.",
+            "C) Используя `getStore`.",
+            "D) Используя `defineStore`.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "103. Что такое `state`, `getters`, `mutations`, `actions`?",
+          options: [
+            "A) `state` — данные, `getters` — вычисляемые свойства, `mutations` — синхронные изменения, `actions` — асинхронные изменения.",
+            "B) `state` — асинхронные изменения, `getters` — данные, `mutations` — вычисляемые свойства, `actions` — синхронные изменения.",
+            "C) `state` — вычисляемые свойства, `getters` — данные, `mutations` — асинхронные изменения, `actions` — синхронные изменения.",
+            "D) `state` — синхронные изменения, `getters` — асинхронные изменения, `mutations` — данные, `actions` — вычисляемые свойства.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "104. Как вызвать действие (action) из компонента?",
+          options: [
+            "A) `this.$store.dispatch('actionName')`.",
+            "B) `this.$store.commit('actionName')`.",
+            "C) `this.$store.get('actionName')`.",
+            "D) `this.$store.set('actionName')`.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "105. Как использовать `mapState` и `mapGetters`?",
+          options: [
+            "A) `...mapState(['stateName'])` и `...mapGetters(['getterName'])`.",
+            "B) `...mapState('moduleName', ['stateName'])` и `...mapGetters('moduleName', ['getterName'])`.",
+            "C) `...mapState({ localName: 'stateName' })` и `...mapGetters({ localName: 'getterName' })`.",
+            "D) Все вышеперечисленное.",
+          ],
+          correct: "D",
+        },
+        {
+          question: "106. Как организовать модули в Vuex?",
+          options: [
+            "A) Создать отдельные файлы для каждого модуля и подключить их в `store`.",
+            "B) Использовать `namespaced: true` для изоляции модулей.",
+            "C) Использовать `store.registerModule` для динамической регистрации модулей.",
+            "D) Все вышеперечисленное.",
+          ],
+          correct: "D",
+        },
+        {
+          question: "107. Что такое `namespaced` в модулях Vuex?",
+          options: [
+            "A) `namespaced` изолирует модуль, чтобы его `state`, `getters`, `mutations`, `actions` были доступны только через префикс.",
+            "B) `namespaced` делает модуль глобальным.",
+            "C) `namespaced` — это устаревшая функция Vue 2.",
+            "D) `namespaced` используется для работы с API.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "108. Как использовать `mapActions` и `mapMutations`?",
+          options: [
+            "A) `...mapActions(['actionName'])` и `...mapMutations(['mutationName'])`.",
+            "B) `...mapActions('moduleName', ['actionName'])` и `...mapMutations('moduleName', ['mutationName'])`.",
+            "C) `...mapActions({ localName: 'actionName' })` и `...mapMutations({ localName: 'mutationName' })`.",
+            "D) Все вышеперечисленное.",
+          ],
+          correct: "D",
+        },
+        {
+          question: "109. Что такое `store.subscribe` и как его использовать?",
+          options: [
+            "A) `store.subscribe` — это метод для подписки на изменения в хранилище.",
+            "B) `store.subscribe` — это метод для создания циклов.",
+            "C) `store.subscribe` — это метод для обработки событий.",
+            "D) `store.subscribe` — это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "110. Как использовать `store.watch` для отслеживания изменений?",
+          options: [
+            "A) `store.watch((state) => state.someValue, (newValue) => {})`.",
+            "B) `store.watch((getters) => getters.someValue, (newValue) => {})`.",
+            "C) `store.watch((state, getters) => state.someValue, (newValue) => {})`.",
+            "D) Все вышеперечисленное.",
+          ],
+          correct: "D",
+        },
+        {
+          question: "111. Что такое `store.replaceState` и зачем он нужен?",
+          options: [
+            "A) `store.replaceState` — это метод для замены всего состояния хранилища.",
+            "B) `store.replaceState` — это метод для создания циклов.",
+            "C) `store.replaceState` — это метод для обработки событий.",
+            "D) `store.replaceState` — это устаревшая функция Vue 2.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "112. Как использовать плагины в Vuex?",
+          options: [
+            "A) Создать функцию-плагин и передать её в `plugins` при создании хранилища.",
+            "B) Использовать `store.subscribe` для создания плагинов.",
+            "C) Использовать `store.watch` для создания плагинов.",
+            "D) Использовать `store.replaceState` для создания плагинов.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "113. Как использовать `store.registerModule` и `store.unregisterModule`?",
+          options: [
+            "A) `store.registerModule('moduleName', module)` и `store.unregisterModule('moduleName')`.",
+            "B) `store.registerModule = 'moduleName'` и `store.unregisterModule = 'moduleName'`.",
+            "C) `store.registerModule: 'moduleName'` и `store.unregisterModule: 'moduleName'`.",
+            "D) `store.registerModule('moduleName')` и `store.unregisterModule('moduleName')`.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "114. Как использовать `store.dispatch` и `store.commit`?",
+          options: [
+            "A) `store.dispatch('actionName')` и `store.commit('mutationName')`.",
+            "B) `store.dispatch = 'actionName'` и `store.commit = 'mutationName'`.",
+            "C) `store.dispatch: 'actionName'` и `store.commit: 'mutationName'`.",
+            "D) `store.dispatch('mutationName')` и `store.commit('actionName')`.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "115. Как использовать `store.getters` для доступа к данным?",
+          options: [
+            "A) `store.getters.someValue`.",
+            "B) `store.getters = 'someValue'`.",
+            "C) `store.getters: 'someValue'`.",
+            "D) `store.getters('someValue')`.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "116. Как использовать ленивую загрузку компонентов?",
+          options: [
+            "A) Использовать `defineAsyncComponent` и динамический импорт",
+            "B) Обернуть компонент в `watchEffect`",
+            "C) Добавить `v-lazy` в шаблон",
+            "D) Применить `defer` в `<script>`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "117. Что такое мемоизация и как ее реализовать?",
+          options: [
+            "A) Это механизм кэширования результатов вычислений, можно использовать `computed`",
+            "B) Это способ отслеживания изменений в реактивных данных через `watch`",
+            "C) Это метод оптимизации запросов к API с помощью `fetch`",
+            "D) Это механизм хранения промежуточных данных в `localStorage`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "118. Как избежать лишних ререндеров?",
+          options: [
+            "A) Использовать `key` при рендеринге списков",
+            "B) Всегда обновлять `ref` при изменении данных",
+            "C) Очищать кэш браузера перед каждым рендерингом",
+            "D) Удалять неиспользуемые компоненты из проекта",
+          ],
+          correct: "A",
+        },
+        {
+          question: "119. Что такое `v-once` и зачем он нужен?",
+          options: [
+            "A) Директива, предотвращающая повторный ререндер узла",
+            "B) Атрибут для установки одноразового события",
+            "C) Функция для предотвращения изменений в `computed`",
+            "D) Метод Vue для предотвращения дублирования компонентов",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "120. Как использовать `keep-alive` для кэширования компонентов?",
+          options: [
+            "A) Обернуть динамические компоненты в `<keep-alive>`",
+            'B) Использовать `v-bind:cache="true"`',
+            'C) Включить `cacheMode="persistent"` в `router-view`',
+            "D) Обернуть компонент в `Suspense`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "121. Что такое Tree Shaking в контексте Vue 3?",
+          options: [
+            "A) Удаление неиспользуемого кода при сборке",
+            "B) Метод оптимизации деревьев компонентов",
+            "C) Оптимизированное обновление DOM",
+            "D) Динамическая загрузка компонентов",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "122. Как использовать `v-memo` для оптимизации рендеринга?",
+          options: [
+            "A) Добавить `v-memo` с массивом зависимостей",
+            "B) Использовать `v-memo` внутри `computed`",
+            "C) Обернуть `v-memo` в `watch`",
+            "D) Применить `v-memo` для событий `click`",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "123. Как оптимизировать производительность Vue-приложения?",
+          options: [
+            "A) Использовать `v-if` вместо `v-show`, когда это возможно",
+            "B) Всегда загружать все компоненты при старте",
+            "C) Обновлять состояние в `data()` при каждом рендере",
+            "D) Добавлять больше анимаций для плавности",
+          ],
+          correct: "A",
+        },
+        {
+          question: "124. Что такое `shallowRef` и `shallowReactive`?",
+          options: [
+            "A) Это механизмы для создания неглубоко реактивных объектов и значений",
+            "B) Это методы глубокого отслеживания изменений",
+            "C) Это хуки для управления состоянием в `setup`",
+            "D) Это специальные функции для работы с `v-for`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "125. Как использовать `v-bind` с CSS-переменными?",
+          options: [
+            "A) Передавать переменную через `:style=\"{ '--color': myColor }\"`",
+            'B) Добавить `v-bind:class="myClass"` в элемент',
+            "C) Использовать `computed` для обработки переменных",
+            "D) Добавить переменные CSS в `data()`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "126. Как использовать Vue 3 с TypeScript?",
+          options: [
+            "A) Установить `vue` и `typescript`, использовать `.ts` файлы",
+            'B) Добавить `lang="ts"` в `<script>` и установить `ts-loader`',
+            "C) Использовать `@ts-check` в каждом файле Vue",
+            "D) Объявить переменные с типами в `data()`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "127. Как типизировать `props` в Vue 3?",
+          options: [
+            "A) Использовать `defineProps<T>()` в `<script setup>`",
+            "B) Передавать `props` как `any`",
+            "C) Использовать `propTypes` из Vue",
+            "D) Определять типы в `data()`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "128. Как типизировать `emits` в Vue 3?",
+          options: [
+            "A) Использовать `defineEmits<T>()` в `<script setup>`",
+            "B) Определять события внутри `methods`",
+            "C) Использовать `this.$emit` без типизации",
+            "D) Передавать события как `string`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "129. Как типизировать `ref` и `reactive`?",
+          options: [
+            "A) Указывать тип `ref<T>()` и `reactive<T>()`",
+            "B) Использовать `const state: any`",
+            "C) Создавать `ref` без указания типа",
+            "D) Передавать `ref` в `data()`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "130. Как типизировать `computed` свойства?",
+          options: [
+            "A) Использовать `computed<T>(() => value)`",
+            "B) Определять `computed` без типизации",
+            "C) Передавать `computed` в `methods`",
+            "D) Использовать `computed` только с `any`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "131. Как типизировать `watch` и `watchEffect`?",
+          options: [
+            "A) Указывать тип `watch<T>()` и `watchEffect<T>()`",
+            "B) Не требуется типизация",
+            "C) Передавать `watch` только с `any`",
+            "D) Использовать `watch` только с `ref`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "132. Как типизировать `provide` и `inject`?",
+          options: [
+            "A) Использовать `provide(key, value as T)` и `inject<T>(key)`",
+            "B) Передавать значения без указания типов",
+            "C) Определять тип `provide` в `data()`",
+            "D) Использовать `provide` только с `any`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "133. Как типизировать `defineComponent`?",
+          options: [
+            "A) Использовать `defineComponent<T>()`",
+            "B) Передавать `props` без типизации",
+            "C) Использовать `export default defineComponent({})` без указания типов",
+            "D) Определять `defineComponent` внутри `data()`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "134. Как типизировать `defineProps` и `defineEmits`?",
+          options: [
+            "A) Использовать `defineProps<T>()` и `defineEmits<T>()`",
+            "B) Передавать `props` и `emits` как `any`",
+            "C) Использовать `defineProps` только с `string`",
+            "D) Определять `defineEmits` в `data()`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "135. Как типизировать `useStore` с Vuex?",
+          options: [
+            "A) Создать типизированный `Store` и использовать `useStore<T>()`",
+            "B) Использовать `useStore()` без указания типов",
+            "C) Определять `useStore` внутри `data()`",
+            "D) Передавать `useStore` как `any`",
+          ],
+          correct: "A",
+        },
+      ];
+      const quizContainer = document.getElementById("quiz");
+
+      // Динамически создаем вопросы и варианты ответов
+      questions.forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question");
+        questionDiv.innerHTML = `
+        <p>${q.question}</p>
+        <div class="options">
+          ${q.options
+            .map(
+              (opt, i) => `
+            <label>
+              <input type="checkbox" name="q${index}" value="${opt[0]}"> ${opt}
+            </label>
+          `
+            )
+            .join("")}
+        </div>
+      `;
+        quizContainer.appendChild(questionDiv);
+      });
+
+      let isChecked = false;
+
+      function checkAnswers() {
+        let correctCount = 0;
+        let incorrectCount = 0;
+        const incorrectAnswersList = [];
+
+        if (isChecked) {
+          // Если проверка уже была выполнена, сбрасываем стили и состояние
+          questions.forEach((q, index) => {
+            const questionDiv = quizContainer.children[index];
+            questionDiv.classList.remove("correct", "incorrect");
+          });
+          isChecked = false; // Сбрасываем флаг
+          return; // Выходим из функции
+        }
+
+        questions.forEach((q, index) => {
+          const questionDiv = quizContainer.children[index];
+          const selectedOptions = Array.from(
+            questionDiv.querySelectorAll("input:checked")
+          ).map((input) => input.value);
+          const isCorrect =
+            selectedOptions.length === 1 && selectedOptions[0] === q.correct;
+
+          if (isCorrect) {
+            correctCount++;
+            questionDiv.classList.add("correct");
+            questionDiv.classList.remove("incorrect");
+          } else {
+            incorrectCount++;
+            questionDiv.classList.add("incorrect");
+            questionDiv.classList.remove("correct");
+            incorrectAnswersList.push(q.question);
+          }
+        });
+
+        isChecked = true;
+
+        const percentage = ((correctCount / questions.length) * 100).toFixed(2);
+
+        document.getElementById("correct-count").textContent = correctCount;
+        document.getElementById("incorrect-count").textContent = incorrectCount;
+        document.getElementById("percentage").textContent = percentage;
+        document.getElementById("incorrect-answers-list").innerHTML =
+          incorrectAnswersList.map((q) => `<li>${q}</li>`).join("");
+        document.getElementById("results").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
