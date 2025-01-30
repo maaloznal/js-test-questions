@@ -31,3 +31,57 @@ button:hover {
   position: fixed;
   right: 40%;
 }
+
+h1 {
+  text-align: center;
+  color: #444;
+}
+.question {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.question.correct {
+  border: 2px solid #4caf50;
+}
+.question.incorrect {
+  border: 2px solid #f44336;
+}
+.options {
+  margin-top: 10px;
+}
+.options label {
+  display: block;
+  margin: 5px 0;
+}
+.results {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.results h2 {
+  margin-top: 0;
+}
+.results p {
+  font-size: 1.1em;
+}
+.incorrect-answers {
+  margin-top: 20px;
+}
+.incorrect-answers ul {
+  list-style-type: none;
+  padding: 0;
+}
+.incorrect-answers li {
+  margin: 5px 0;
+  color: #f44336;
+}
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
