@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест по JavaScript</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        color: #444;
+      }
+      .question {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .question.correct {
+        border-left: 5px solid #4caf50;
+      }
+      .question.incorrect {
+        border-left: 5px solid #f44336;
+      }
+      .options {
+        margin-top: 10px;
+      }
+      .options label {
+        display: block;
+        margin: 5px 0;
+      }
+      .results {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .results h2 {
+        margin-top: 0;
+      }
+      .results p {
+        font-size: 1.1em;
+      }
+      .incorrect-answers {
+        margin-top: 20px;
+      }
+      .incorrect-answers ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .incorrect-answers li {
+        margin: 5px 0;
+        color: #f44336;
+      }
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #4caf50;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+      }
+    </style>
+  </head>
+  <header>
+    <nav>
+      <a href="react_test.html">HOME</a><a href="index.html">JS Vanila Test</a><a href="test1.html">test1</a
+      ><a href="test2.html">test2</a><a href="test3.html">test3</a
+      ><a href="test4.html">test4</a><a href="test5.html">test5</a>
+    </nav>
+  </header>
+  <body>
+    <h1>Тест по JavaScript</h1>
+    <form id="quiz"></form>
+    <button onclick="checkAnswers()">Проверить ответы</button>
+    <div class="results" id="results" style="display: none">
+      <h2>Результаты</h2>
+      <p>Правильных ответов: <span id="correct-count">0</span></p>
+      <p>Неправильных ответов: <span id="incorrect-count">0</span></p>
+      <p>Процент правильных ответов: <span id="percentage">0</span>%</p>
+      <div class="incorrect-answers">
+        <h3>Неправильные ответы:</h3>
+        <ul id="incorrect-answers-list"></ul>
+      </div>
+    </div>
+    <script>
+      const questions = [
+        {
+          question: "Что такое React и для чего он используется?",
+          options: [
+            "A) Это язык программирования.",
+            "B) Это библиотека для создания пользовательских интерфейсов.",
+            "C) Это серверный фреймворк.",
+            "D) Это база данных.",
+          ],
+          correct: "B",
+        },
+        {
+          question:
+            "В чем разница между React и другими фреймворками, например, Angular?",
+          options: [
+            "A) React — это полноценный фреймворк, а Angular — библиотека.",
+            "B) React использует виртуальный DOM, а Angular — реальный DOM.",
+            "C) React — это библиотека, а Angular — полноценный фреймворк.",
+            "D) React не поддерживает компоненты.",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Что такое JSX и зачем он нужен?",
+          options: [
+            "A) Это язык стилей для React.",
+            "B) Это синтаксическое расширение, позволяющее писать HTML-подобный код в JavaScript.",
+            "C) Это библиотека для управления состоянием.",
+            "D) Это инструмент для тестирования.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как React работает с виртуальным DOM?",
+          options: [
+            "A) React напрямую изменяет реальный DOM.",
+            "B) React создает копию реального DOM и обновляет только измененные части.",
+            "C) React не использует DOM.",
+            "D) React использует только Shadow DOM.",
+          ],
+          correct: "B",
+        },
+        {
+          question:
+            "Как создать новый проект на React с использованием Create React App?",
+          options: [
+            "A) `npm create-react-app my-app`",
+            "B) `npx create-react-app my-app`",
+            "C) `npm install create-react-app`",
+            "D) `npx install create-react-app`",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Какие основные преимущества React?",
+          options: [
+            "A) Высокая производительность, компонентный подход, простота.",
+            "B) Использование реального DOM, сложность, низкая производительность.",
+            "C) Отсутствие поддержки компонентов.",
+            "D) Использование только серверного рендеринга.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Что такое компоненты в React?",
+          options: [
+            "A) Это функции или классы, которые возвращают JSX.",
+            "B) Это только функции.",
+            "C) Это только классы.",
+            "D) Это стили для приложения.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Какие бывают типы компонентов в React?",
+          options: [
+            "A) Только функциональные.",
+            "B) Только классовые.",
+            "C) Функциональные и классовые.",
+            "D) Только стилевые.",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Как создать функциональный компонент?",
+          options: [
+            "A) `function MyComponent() { return <div>Hello</div>; }`",
+            "B) `class MyComponent extends React.Component { render() { return <div>Hello</div>; } }`",
+            "C) `const MyComponent = () => { return <div>Hello</div>; }`",
+            "D) Оба варианта A и C верны.",
+          ],
+          correct: "D",
+        },
+        {
+          question: "Как создать классовый компонент?",
+          options: [
+            "A) `function MyComponent() { return <div>Hello</div>; }`",
+            "B) `class MyComponent extends React.Component { render() { return <div>Hello</div>; } }`",
+            "C) `const MyComponent = () => { return <div>Hello</div>; }`",
+            "D) Оба варианта A и C верны.",
+          ],
+          correct: "B",
+        },
+        {
+          question:
+            "В чем разница между функциональными и классовыми компонентами?",
+          options: [
+            "A) Функциональные компоненты не могут использовать состояние.",
+            "B) Классовые компоненты не могут использовать хуки.",
+            "C) Функциональные компоненты проще и поддерживают хуки.",
+            "D) Все варианты верны.",
+          ],
+          correct: "D",
+        },
+        {
+          question:
+            "Как передать данные из родительского компонента в дочерний?",
+          options: [
+            "A) Через состояние (state).",
+            "B) Через пропсы (props).",
+            "C) Через контекст (context).",
+            "D) Через хуки (hooks).",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Что такое пропсы (props) в React?",
+          options: [
+            "A) Это внутреннее состояние компонента.",
+            "B) Это данные, передаваемые от родительского компонента к дочернему.",
+            "C) Это методы жизненного цикла.",
+            "D) Это стили компонента.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как задать значения по умолчанию для пропсов?",
+          options: [
+            "A) Используя `defaultProps`.",
+            "B) Используя `useState`.",
+            "C) Используя `useEffect`.",
+            "D) Используя `useContext`.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как проверить типы пропсов с помощью PropTypes?",
+          options: [
+            "A) `MyComponent.propTypes = { name: PropTypes.string }`",
+            "B) `MyComponent.propTypes = { name: String }`",
+            'C) `MyComponent.propTypes = { name: "string" }`',
+            "D) `MyComponent.propTypes = { name: () => {} }`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Что такое состояние (state) в React?",
+          options: [
+            "A) Это данные, которые передаются между компонентами.",
+            "B) Это внутренние данные компонента, которые могут изменяться.",
+            "C) Это глобальные данные приложения.",
+            "D) Это стили компонента.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как обновить состояние в функциональном компоненте?",
+          options: [
+            "A) Используя `this.setState`.",
+            "B) Используя `useState`.",
+            "C) Используя `useEffect`.",
+            "D) Используя `useContext`.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как обновить состояние в классовом компоненте?",
+          options: [
+            "A) Используя `this.setState`.",
+            "B) Используя `useState`.",
+            "C) Используя `useEffect`.",
+            "D) Используя `useContext`.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Что такое ключи (keys) в React и зачем они нужны?",
+          options: [
+            "A) Это уникальные идентификаторы для элементов списка.",
+            "B) Это стили для компонентов.",
+            "C) Это методы жизненного цикла.",
+            "D) Это пропсы.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как отобразить список элементов в React?",
+          options: [
+            "A) Используя `map`.",
+            "B) Используя `forEach`.",
+            "C) Используя `filter`.",
+            "D) Используя `reduce`.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Что такое хуки в React?",
+          options: [
+            "A) Функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах.",
+            "B) Методы жизненного цикла в классовых компонентах.",
+            "C) Специальные компоненты для управления стилями.",
+            "D) Инструменты для отладки React-приложений.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как создать состояние с помощью хука useState?",
+          options: [
+            "A) const [state, setState] = React.createState(initialValue);",
+            "B) const [state, setState] = useState(initialValue);",
+            "C) const state = useState(initialValue);",
+            "D) const state = React.useState(initialValue);",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать эффекты с помощью хука useEffect?",
+          options: [
+            "A) useEffect(() => { effect }, [dependencies]);",
+            "B) useEffect(effect, [dependencies]);",
+            "C) useEffect({ effect }, [dependencies]);",
+            "D) useEffect(effect, dependencies);",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "В чем разница между useEffect и жизненными циклами в классовых компонентах?",
+          options: [
+            "A) useEffect объединяет componentDidMount, componentDidUpdate и componentWillUnmount.",
+            "B) useEffect работает только при монтировании компонента.",
+            "C) useEffect не может заменить жизненные циклы.",
+            "D) useEffect используется только для сайд-эффектов, не связанных с жизненным циклом.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать хук useContext?",
+          options: [
+            "A) const value = useContext(MyContext);",
+            "B) const value = React.useContext(MyContext);",
+            "C) const value = useContext(MyContext, defaultValue);",
+            "D) const value = useContext();",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как создать собственный хук?",
+          options: [
+            "A) Создать функцию, которая использует другие хуки.",
+            "B) Создать класс с методами жизненного цикла.",
+            "C) Использовать специальный синтаксис createHook.",
+            "D) Создать хук можно только с помощью React.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Что делает хук useRef?",
+          options: [
+            "A) Позволяет создавать изменяемые объекты, которые сохраняются между рендерами.",
+            "B) Используется для управления состоянием компонента.",
+            "C) Заменяет useState для сложных состояний.",
+            "D) Позволяет создавать ссылки на DOM-элементы.",
+          ],
+          correct: "D",
+        },
+        {
+          question: "Как использовать хук useReducer?",
+          options: [
+            "A) const [state, dispatch] = useReducer(reducer, initialState);",
+            "B) const state = useReducer(reducer, initialState);",
+            "C) const [state, dispatch] = useReducer(initialState, reducer);",
+            "D) const [state, dispatch] = useReducer(reducer);",
+          ],
+          correct: "A",
+        },
+        {
+          question: "В чем разница между useState и useReducer?",
+          options: [
+            "A) useReducer подходит для управления сложным состоянием, а useState — для простого.",
+            "B) useReducer работает быстрее, чем useState.",
+            "C) useState нельзя использовать в функциональных компонентах.",
+            "D) Разницы нет, это синонимы.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать хук useMemo?",
+          options: [
+            "A) const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);",
+            "B) const memoizedValue = useMemo(computeExpensiveValue(a, b), [a, b]);",
+            "C) const memoizedValue = useMemo(() => { computeExpensiveValue(a, b) });",
+            "D) const memoizedValue = useMemo(computeExpensiveValue, [a, b]);",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать хук useCallback?",
+          options: [
+            "A) const memoizedCallback = useCallback(() => { doSomething(a, b); }, [a, b]);",
+            "B) const memoizedCallback = useCallback(doSomething(a, b), [a, b]);",
+            "C) const memoizedCallback = useCallback(() => { doSomething(a, b) });",
+            "D) const memoizedCallback = useCallback(doSomething, [a, b]);",
+          ],
+          correct: "A",
+        },
+        {
+          question: "В чем разница между useMemo и useCallback?",
+          options: [
+            "A) useMemo возвращает мемоизированное значение, а useCallback — мемоизированную функцию.",
+            "B) useMemo используется для функций, а useCallback — для значений.",
+            "C) Разницы нет, это синонимы.",
+            "D) useMemo работает только с примитивами.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать хук useLayoutEffect?",
+          options: [
+            "A) Аналогично useEffect, но выполняется синхронно после всех изменений DOM.",
+            "B) Аналогично useEffect, но выполняется до рендера компонента.",
+            "C) Аналогично useEffect, но работает только в классовых компонентах.",
+            "D) Аналогично useEffect, но не поддерживает зависимости.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "В чем разница между useEffect и useLayoutEffect?",
+          options: [
+            "A) useLayoutEffect выполняется синхронно после рендера, а useEffect — асинхронно.",
+            "B) useLayoutEffect работает только в классовых компонентах.",
+            "C) useEffect выполняется до рендера, а useLayoutEffect — после.",
+            "D) Разницы нет, это синонимы.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать хук useImperativeHandle?",
+          options: [
+            "A) useImperativeHandle(ref, () => ({ method: () => {} }));",
+            "B) useImperativeHandle(() => ({ method: () => {} }), [ref]);",
+            "C) useImperativeHandle(ref, { method: () => {} });",
+            "D) useImperativeHandle(ref, () => { method: () => {} });",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать хук useDebugValue?",
+          options: [
+            "A) useDebugValue(value);",
+            "B) useDebugValue(value, formatFn);",
+            "C) useDebugValue(formatFn);",
+            "D) useDebugValue(value, formatFn, dependencies);",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Какие правила хуков существуют?",
+          options: [
+            "A) Хуки можно вызывать только на верхнем уровне и только в функциональных компонентах.",
+            "B) Хуки можно вызывать в условиях и циклах.",
+            "C) Хуки можно использовать только в классовых компонентах.",
+            "D) Хуки можно вызывать в любом порядке.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Почему нельзя вызывать хуки внутри условий или циклов?",
+          options: [
+            "A) Чтобы сохранить порядок вызова хуков между рендерами.",
+            "B) Хуки не работают в условиях и циклах.",
+            "C) Это приводит к утечкам памяти.",
+            "D) Это ограничение только для классовых компонентов.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как передать данные между компонентами с помощью хуков?",
+          options: [
+            "A) Использовать useContext или поднять состояние вверх.",
+            "B) Использовать useState в каждом компоненте.",
+            "C) Использовать useEffect для передачи данных.",
+            "D) Данные нельзя передавать с помощью хуков.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать несколько хуков в одном компоненте?",
+          options: [
+            "A) Вызывать их последовательно на верхнем уровне компонента.",
+            "B) Вызывать их внутри условий или циклов.",
+            "C) Объединять их в один хук.",
+            "D) Использовать только один хук на компонент.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "Какие методы жизненного цикла существуют в классовых компонентах?",
+          options: [
+            "A) `useState`, `useEffect`, `useContext`",
+            "B) `componentDidMount`, `componentDidUpdate`, `componentWillUnmount`",
+            "C) `render`, `constructor`, `componentWillReceiveProps`",
+            "D) Все варианты B и C верны.",
+          ],
+          correct: "D",
+        },
+        {
+          question: "Что такое метод `componentDidMount`?",
+          options: [
+            "A) Вызывается перед рендерингом компонента.",
+            "B) Вызывается после монтирования компонента в DOM.",
+            "C) Вызывается при обновлении пропсов.",
+            "D) Вызывается перед удалением компонента.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Что такое метод `componentDidUpdate`?",
+          options: [
+            "A) Вызывается при монтировании компонента.",
+            "B) Вызывается перед обновлением компонента.",
+            "C) Вызывается после обновления компонента (изменения пропсов или состояния).",
+            "D) Вызывается при возникновении ошибки.",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Что такое метод `componentWillUnmount`?",
+          options: [
+            "A) Вызывается перед обновлением компонента.",
+            "B) Вызывается перед удалением компонента из DOM.",
+            "C) Вызывается при ошибке в дочернем компоненте.",
+            "D) Вызывается при монтировании.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `shouldComponentUpdate`?",
+          options: [
+            "A) Для предотвращения рендера компонента.",
+            "B) Для обработки ошибок.",
+            "C) Для обновления состояния на основе пропсов.",
+            "D) Для работы с DOM.",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "В чем разница между `componentDidMount` и `componentWillMount`?",
+          options: [
+            "A) `componentWillMount` вызывается после рендера, `componentDidMount` — до.",
+            "B) `componentWillMount` устарел и не рекомендуется.",
+            "C) `componentDidMount` используется для HTTP-запросов, `componentWillMount` — для стилей.",
+            "D) Разницы нет.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `getDerivedStateFromProps`?",
+          options: [
+            "A) Это метод для обработки ошибок.",
+            "B) Это статический метод, обновляющий состояние на основе пропсов.",
+            "C) Это метод для работы с DOM.",
+            "D) Это метод для HTTP-запросов.",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Что такое `getSnapshotBeforeUpdate`?",
+          options: [
+            "A) Метод для создания скриншотов компонента.",
+            "B) Метод, вызываемый перед фиксацией изменений в DOM (например, для сохранения позиции скролла).",
+            "C) Метод для валидации пропсов.",
+            "D) Метод для работы с анимациями.",
+          ],
+          correct: "B",
+        },
+        {
+          question:
+            "Как использовать `componentDidCatch` для обработки ошибок?",
+          options: [
+            "A) Для перехвата ошибок в методе `render` или жизненных циклах дочерних компонентов.",
+            "B) Для перехвата ошибок в родительском компоненте.",
+            "C) Для отображения ошибок в UI.",
+            "D) Все варианты A и C верны.",
+          ],
+          correct: "D",
+        },
+        {
+          question:
+            "Как жизненные циклы классовых компонентов заменяются хуками?",
+          options: [
+            "A) `useEffect` заменяет `componentDidMount`, `componentDidUpdate`, `componentWillUnmount`.",
+            "B) `useState` заменяет все жизненные циклы.",
+            "C) Хуки не заменяют жизненные циклы.",
+            "D) `useMemo` заменяет `componentDidUpdate`.",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как обработать событие в React?",
+          options: [
+            "A. Использовать `addEventListener`",
+            "B. Использовать методы жизненного цикла компонента",
+            "C. Передать функцию обработчика через атрибут в JSX",
+            "D. Применить слушатель событий напрямую к DOM элементу",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Как создать управляемый компонент для формы?",
+          options: [
+            "A. Использовать `useRef` для хранения значения",
+            "B. Использовать `useState` для хранения значения и обновлять его через `onChange`",
+            "C. Использовать стандартные HTML элементы без React состояния",
+            "D. Привязать значение формы к классовому компоненту",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как создать неуправляемый компонент для формы?",
+          options: [
+            "A. Использовать `useState` и обновлять значение через `onChange`",
+            "B. Использовать `useRef` для доступа к DOM элементу напрямую",
+            "C. Привязать значение к состоянию компонента",
+            "D. Использовать `useReducer` для управления состоянием формы",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как получить значение из input с использованием `useRef`?",
+          options: [
+            "A. Использовать `input.value` в обработчике события",
+            "B. Использовать `ref.current.value` для получения значения",
+            "C. Использовать `useState` для хранения значения",
+            "D. Использовать `useEffect` для синхронизации значения",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как отправить данные формы на сервер?",
+          options: [
+            "A. Использовать `window.location` для отправки данных",
+            "B. Использовать API `fetch` или `axios` для отправки POST-запроса",
+            "C. Использовать стандартный HTML тег `<form>` с атрибутом `action`",
+            "D. Отправить данные через `console.log`",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как валидировать данные формы в React?",
+          options: [
+            "A. Использовать `useState` для хранения ошибок",
+            "B. Применить библиотеку для валидации, например, `Formik` или `Yup`",
+            "C. Использовать `onSubmit` для проверки значений",
+            "D. Использовать встроенную HTML валидацию с атрибутами `required`, `pattern`",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `onChange` для обработки ввода?",
+          options: [
+            "A. Привязать обработчик `onChange` к каждому полю формы",
+            "B. Использовать `useState` для обновления состояния при каждом изменении",
+            "C. Использовать `ref` для получения текущего значения поля",
+            "D. Использовать `useEffect` для отслеживания изменений поля",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `onSubmit` для обработки отправки формы?",
+          options: [
+            "A. Привязать обработчик `onSubmit` к тегу `<form>` и предотвратить действие по умолчанию",
+            "B. Использовать событие `onClick` на кнопке отправки",
+            "C. Вызвать функцию отправки данных напрямую в `render`",
+            "D. Использовать `useEffect` для вызова функции при отправке формы",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как отключить кнопку отправки формы до валидации?",
+          options: [
+            "A. Использовать `disabled` в атрибуте кнопки и проверять условия валидации",
+            "B. Использовать `useEffect` для отслеживания изменений формы",
+            "C. Отключить кнопку с помощью CSS классов",
+            "D. Применить метод `setState` для управления состоянием кнопки",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как работать с несколькими полями формы в React?",
+          options: [
+            "A. Использовать отдельные состояния для каждого поля",
+            "B. Создать объект состояния с полями формы и обновлять их через `onChange`",
+            "C. Использовать один элемент формы и обновлять его через `ref`",
+            "D. Применить `useEffect` для синхронизации всех полей",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Что такое React Router?",
+          options: [
+            "A. Библиотека для стилизации компонентов",
+            "B. Библиотека для управления состоянием в React",
+            "C. Библиотека для маршрутизации в React-приложениях",
+            "D. Встроенный инструмент для работы с формами",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Как установить React Router в проект?",
+          options: [
+            "A. `npm install react-router-dom`",
+            "B. `npm install react-router`",
+            "C. `npm install react-route`",
+            "D. `npm install router-react`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как создать маршрут с помощью `Route`?",
+          options: [
+            "A. Использовать `Route` с атрибутами `path` и `component`",
+            "B. Использовать `Route` с атрибутами `url` и `handler`",
+            "C. Использовать `Route` с атрибутами `path` и `element`",
+            "D. Использовать `Route` с атрибутами `route` и `view`",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Как использовать `Link` для навигации?",
+          options: [
+            "A. Использовать `Link` с атрибутом `href`",
+            "B. Использовать `Link` с атрибутом `to`",
+            "C. Использовать `Link` с атрибутом `url`",
+            "D. Использовать `Link` с атрибутом `path`",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `useHistory` для программной навигации?",
+          options: [
+            "A. Использовать `useHistory` для доступа к параметрам URL",
+            "B. Использовать `useHistory` для навигации между маршрутами",
+            "C. Использовать `useHistory` для управления состоянием приложения",
+            "D. Использовать `useHistory` для создания новых маршрутов",
+          ],
+          correct: "B",
+        },
+        {
+          question:
+            "Как использовать `useParams` для получения параметров маршрута?",
+          options: [
+            "A. Использовать `useParams` для получения текущего состояния компонента",
+            "B. Использовать `useParams` для доступа к данным из Redux",
+            "C. Использовать `useParams` для извлечения параметров из URL",
+            "D. Использовать `useParams` для обработки данных формы",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Как создать вложенные маршруты?",
+          options: [
+            "A. Использовать `Switch` внутри компонента маршрута",
+            "B. Использовать компоненты `Route` внутри других компонентов `Route`",
+            "C. Использовать `useHistory` для создания вложенных маршрутов",
+            "D. Использовать `Link` для создания вложенных ссылок",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `Redirect` для перенаправления?",
+          options: [
+            "A. Использовать `Redirect` с атрибутом `to` для перенаправления",
+            "B. Использовать `Redirect` для изменения маршрута вручную",
+            "C. Использовать `Redirect` с атрибутом `url`",
+            "D. Использовать `Redirect` для маршрутизации в приложении без перезагрузки",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как защитить маршруты с помощью аутентификации?",
+          options: [
+            "A. Использовать `Route` с атрибутом `auth`",
+            "B. Использовать условную проверку внутри компонента маршрута для отображения маршрута",
+            "C. Использовать `Redirect` в случае неаутентифицированного пользователя",
+            "D. Использовать `Route` с атрибутом `secure`",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `Switch` для исключительных маршрутов?",
+          options: [
+            "A. Использовать `Switch` для выбора первого совпавшего маршрута",
+            "B. Использовать `Switch` для отображения всех маршрутов подряд",
+            "C. Использовать `Switch` для скрытия всех маршрутов",
+            "D. Использовать `Switch` для отображения маршрута по умолчанию",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как оптимизировать производительность React-приложения?",
+          options: [
+            "A. Использовать больше состояний в компонентах",
+            "B. Использовать React DevTools для отслеживания производительности",
+            "C. Разделить компоненты на более мелкие",
+            "D. Применять мемоизацию, избегать лишних ререндеров и использовать код-сплиттинг",
+          ],
+          correct: "D",
+        },
+        {
+          question: "Что такое мемоизация и как она используется в React?",
+          options: [
+            "A. Мемоизация — это процесс кеширования результатов функции для улучшения производительности",
+            "B. Мемоизация — это хранение всех данных приложения в памяти",
+            "C. Мемоизация — это метод, который помогает уменьшить количество ререндеров компонентов",
+            "D. Мемоизация — это способ выполнения асинхронных запросов",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `React.memo`?",
+          options: [
+            "A. Обернуть компонент в `React.memo` для предотвращения его перерендеривания, если пропсы не изменились",
+            "B. Использовать `React.memo` в любом месте компонента для ускорения его работы",
+            "C. Вызывать `React.memo` внутри `useEffect`",
+            "D. Использовать `React.memo` для оптимизации состояния компонента",
+          ],
+          correct: "A",
+        },
+        {
+          question: "В чем разница между `React.memo` и `useMemo`?",
+          options: [
+            "A. `React.memo` используется для мемоизации компонентов, а `useMemo` — для мемоизации значений внутри компонента",
+            "B. `React.memo` работает только с функциональными компонентами, а `useMemo` — только с классами",
+            "C. `React.memo` сохраняет стейты, а `useMemo` — эффекты",
+            "D. `React.memo` применяет ленивую загрузку, а `useMemo` — код-сплиттинг",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `PureComponent`?",
+          options: [
+            "A. Наследовать класс от `PureComponent` для автоматической оптимизации с помощью проверки пропсов",
+            "B. Использовать `PureComponent` только для функциональных компонентов",
+            "C. Применять `PureComponent` для мемоизации состояний",
+            "D. Вызывать `PureComponent` внутри компонента, чтобы улучшить ререндер",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как избежать лишних ререндеров в React?",
+          options: [
+            "A. Использовать больше стейтов в компонентах",
+            "B. Использовать мемоизацию компонентов, например, с помощью `React.memo` и `useMemo`",
+            "C. Применять ререндеринг для всех изменений в состоянии",
+            "D. Использовать только один стейт для всего компонента",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `shouldComponentUpdate` для оптимизации?",
+          options: [
+            "A. Возвращать `false` в методе `shouldComponentUpdate`, если компонент не нуждается в перерендеривании",
+            "B. Использовать `shouldComponentUpdate` только в функциональных компонентах",
+            "C. Использовать `shouldComponentUpdate` только для обработки событий",
+            "D. Ожидать, что `shouldComponentUpdate` будет автоматически вызываться при изменении пропсов",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "Как использовать `lazy` и `Suspense` для ленивой загрузки?",
+          options: [
+            "A. Использовать `React.lazy` для динамической загрузки компонентов и `Suspense` для отображения индикатора загрузки",
+            "B. Использовать `React.lazy` для загрузки всех компонентов, а `Suspense` — для отображения сплэш-экранов",
+            "C. Использовать `Suspense` для загрузки данных и `React.lazy` для оптимизации состояния",
+            "D. Использовать только `Suspense` для отложенной загрузки компонента",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "Как оптимизировать большие списки с помощью `react-window`?",
+          options: [
+            "A. Использовать `react-window` для рендеринга только видимых элементов списка, чтобы улучшить производительность",
+            "B. Применять `react-window` для загрузки всех элементов списка сразу",
+            "C. Использовать `react-window` для автоматической сортировки элементов списка",
+            "D. Использовать `react-window` для разделения списка на страницы",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать код-сплиттинг в React?",
+          options: [
+            "A. Разделить код на более мелкие части, загружаемые по мере необходимости, с помощью `React.lazy` и `Suspense`",
+            "B. Загружать весь код приложения сразу для улучшения скорости",
+            "C. Использовать `useEffect` для разделения кода на компоненты",
+            "D. Применять код-сплиттинг только для глобальных стилей",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как отправить GET-запрос в React?",
+          options: [
+            "A. Использовать `fetch` с методом `GET` для отправки запроса",
+            "B. Использовать `POST` для отправки GET-запроса",
+            "C. Использовать `axios` с методом `PUT`",
+            "D. Использовать `useEffect` для автоматической отправки GET-запроса",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как отправить POST-запрос в React?",
+          options: [
+            "A. Использовать `fetch` с методом `POST` для отправки данных",
+            "B. Использовать `axios` с методом `GET`",
+            "C. Использовать `useEffect` для отправки POST-запроса",
+            "D. Использовать `fetch` с методом `PUT` для отправки данных",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `fetch` для работы с API?",
+          options: [
+            "A. Применить `fetch(url, options)` для отправки запросов и обработки ответов",
+            "B. Использовать `fetch` только для получения данных, не поддерживает отправку данных",
+            "C. Применять `fetch` внутри `useState` для получения данных",
+            "D. Использовать `fetch` для работы только с изображениями",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `axios` для работы с API?",
+          options: [
+            "A. Применить `axios.get(url)` для отправки GET-запросов и `axios.post(url, data)` для POST-запросов",
+            "B. Использовать `axios` только для работы с JSON-данными",
+            "C. Применять `axios` только с асинхронными функциями",
+            "D. Использовать `axios` для работы с состоянием в компоненте",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как обрабатывать ошибки при запросах к API?",
+          options: [
+            "A. Использовать `try/catch` блоки в асинхронных функциях для обработки ошибок",
+            "B. Игнорировать ошибки при запросах",
+            "C. Обрабатывать ошибки только внутри компонентов",
+            "D. Использовать `setState` для обработки ошибок",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как отобразить данные, полученные из API?",
+          options: [
+            "A. Использовать `useState` для хранения данных и рендерить их в JSX",
+            "B. Отправить данные через `console.log` в компонент",
+            "C. Сохранять данные в глобальном состоянии и не отображать их",
+            "D. Использовать `fetch` для вывода данных на экран напрямую",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `async/await` в React?",
+          options: [
+            "A. Применять `async/await` внутри асинхронных функций для удобной работы с промисами",
+            "B. Использовать `async/await` внутри `useEffect` для работы с запросами",
+            "C. Использовать `async/await` только в классах компонентов",
+            "D. Применять `async/await` только для синхронных функций",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `useEffect` для работы с API?",
+          options: [
+            "A. Использовать `useEffect` для отправки запросов при монтировании компонента",
+            "B. Использовать `useEffect` только для синхронизации данных с сервером",
+            "C. Использовать `useEffect` для обновления состояния после каждого клика",
+            "D. Использовать `useEffect` только с `axios`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как обновлять данные при изменении состояния?",
+          options: [
+            "A. Использовать `useEffect` для обновления данных при изменении состояния",
+            "B. Использовать `setState` только для сохранения новых данных",
+            "C. Применять `useState` для изменения состояния и отображения новых данных",
+            "D. Использовать `axios` для автоматического обновления данных",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать WebSocket в React?",
+          options: [
+            "A. Создать соединение с сервером через `WebSocket` и слушать события в компоненте",
+            "B. Использовать WebSocket только для отправки данных в API",
+            "C. Использовать WebSocket внутри `useEffect` для подключения к серверу",
+            "D. Применять WebSocket только с `axios` для двусторонней связи",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Что такое контекст в React?",
+          options: [
+            "A. Механизм для передачи данных между компонентами без использования пропсов",
+            "B. Механизм для работы с серверными данными",
+            "C. Функция для обработки состояния компонента",
+            "D. Метод для работы с асинхронными запросами",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как создать контекст с помощью `createContext`?",
+          options: [
+            "A. Использовать `createContext()` для создания контекста и передачи его значений через `Provider`",
+            "B. Использовать `createContext()` для создания глобального состояния в приложении",
+            "C. Использовать `createContext()` для хранения локальных данных",
+            "D. Использовать `createContext()` только для передачи стилей",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `Provider` для передачи данных?",
+          options: [
+            "A. Обернуть компоненты в `Provider` и передать данные через его `value` пропс",
+            "B. Использовать `Provider` только для передачи функций, а не данных",
+            "C. Применять `Provider` внутри `useEffect` для отправки данных",
+            "D. `Provider` используется только для управления состоянием",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `Consumer` для получения данных?",
+          options: [
+            "A. Обернуть компоненты в `Consumer` и передать функцию, которая получает данные контекста",
+            "B. Использовать `Consumer` для получения данных из глобального состояния",
+            "C. Применять `Consumer` только для получения стилей",
+            "D. `Consumer` используется только с асинхронными запросами",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать хук `useContext`?",
+          options: [
+            "A. Использовать `useContext` для получения данных из контекста в функциональных компонентах",
+            "B. Применять `useContext` для изменения состояния компонента",
+            "C. Использовать `useContext` для обновления данных в родительских компонентах",
+            "D. Использовать `useContext` только с `Provider`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "В чем разница между контекстом и пропсами?",
+          options: [
+            "A. Контекст позволяет передавать данные без необходимости явно передавать их через пропсы",
+            "B. Контекст используется только для глобальных состояний, а пропсы — для локальных",
+            "C. Пропсы используются для состояния, а контекст — для стилей",
+            "D. Пропсы не могут изменяться, а контекст всегда изменяем",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать несколько контекстов в одном компоненте?",
+          options: [
+            "A. Обернуть компонент в несколько `Provider`, каждый из которых передает разные данные",
+            "B. Использовать один контекст для всех данных, избегая нескольких `Provider`",
+            "C. Использовать только один контекст, чтобы избежать лишних ререндеров",
+            "D. Обрабатывать несколько контекстов через `useEffect`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как обновлять контекст из дочернего компонента?",
+          options: [
+            "A. Использовать функцию обновления, переданную через контекст в дочерний компонент",
+            "B. Применять `useContext` для обновления данных в родительском компоненте",
+            "C. Использовать `setState` для обновления контекста напрямую",
+            "D. Изменять данные в контексте только в компоненте `Provider`",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "Как избежать лишних ререндеров при использовании контекста?",
+          options: [
+            "A. Использовать мемоизацию значений контекста или оптимизировать компонент с `React.memo`",
+            "B. Передавать данные через пропсы, а не контекст",
+            "C. Использовать `useEffect` для обновления данных только по запросу",
+            "D. Применять `shouldComponentUpdate` для оптимизации ререндеров",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать контекст для глобального состояния?",
+          options: [
+            "A. Создать глобальный контекст с помощью `createContext` и передать данные через `Provider`",
+            "B. Использовать контекст только для локальных состояний",
+            "C. Применять контекст для стилизации компонентов",
+            "D. Использовать контекст только для передачи функций между компонентами",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как протестировать React-компонент с помощью Jest?",
+          options: [
+            "A. Написать тесты, используя `test` или `it`, и моки для зависимостей",
+            "B. Использовать `React Testing Library` для рендеринга компонента",
+            "C. Применять только `Jest` без интеграции с другими инструментами",
+            "D. Использовать `enzyme` для тестирования, а не `Jest`",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `React Testing Library`?",
+          options: [
+            "A. Использовать `render()` для рендеринга компонента и затем проверять его поведение",
+            "B. Применять `render()` только для создания моков компонентов",
+            "C. Использовать `React Testing Library` только для тестирования классовых компонентов",
+            "D. Применять `fireEvent` только для асинхронных тестов",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как протестировать компонент с использованием хуков?",
+          options: [
+            "A. Использовать `renderHook()` из `@testing-library/react-hooks` для рендеринга хука",
+            "B. Использовать `jest.mock` для имитации работы хуков",
+            "C. Применять `useEffect` внутри тестов для тестирования хуков",
+            "D. Тестировать хуки только в компонентах с состоянием",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как протестировать асинхронный код в React?",
+          options: [
+            "A. Использовать `async/await` и `waitFor` для ожидания завершения асинхронных действий",
+            "B. Применять `setTimeout` для имитации асинхронных операций",
+            "C. Тестировать асинхронный код без использования `waitFor`",
+            "D. Применять асинхронные функции только для тестирования сетевых запросов",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как протестировать маршрутизацию в React?",
+          options: [
+            "A. Использовать `MemoryRouter` для тестирования маршрутов в изолированной среде",
+            "B. Применять `BrowserRouter` только в реальных условиях",
+            "C. Использовать `testRouter` для тестирования URL",
+            "D. Тестировать маршруты только в классовых компонентах",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как протестировать форму в React?",
+          options: [
+            "A. Использовать `fireEvent` для имитации ввода данных в поля формы и отправки",
+            "B. Применять `jest.fn()` для мокирования обработки формы",
+            "C. Тестировать форму только с помощью стандартных атрибутов HTML",
+            "D. Использовать `useState` для проверки состояний формы",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать моки для тестирования API?",
+          options: [
+            "A. Использовать `jest.mock()` для создания моков API-запросов и тестирования",
+            "B. Тестировать API только с реальными данными",
+            "C. Использовать моки только для сетевых ошибок",
+            "D. Применять моки только в интеграционных тестах",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как протестировать компонент с контекстом?",
+          options: [
+            "A. Обернуть компонент в контекстный `Provider` и проверить рендеринг",
+            "B. Использовать `useContext` в тестах для проверки значений контекста",
+            "C. Тестировать контекст отдельно от компонентов",
+            "D. Применять `jest.mock()` для мокирования контекста",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как протестировать компонент с использованием `Redux`?",
+          options: [
+            "A. Обернуть компонент в `Provider` с моковым состоянием `store` и тестировать его",
+            "B. Использовать `jest.mock()` для мокирования действий Redux",
+            "C. Применять `useDispatch` для тестирования функционала",
+            "D. Тестировать `Redux`-состояние только с асинхронными действиями",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `snapshot`-тестирование в React?",
+          options: [
+            "A. Сгенерировать снимок компонента с помощью `toMatchSnapshot()` и проверять его изменение",
+            "B. Использовать только для тестирования событийных обработчиков",
+            "C. Применять только в функциональных компонентах",
+            "D. Тестировать только представление компонентов, игнорируя их логику",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Что такое Redux и зачем он нужен?",
+          options: [
+            "A. Это библиотека для работы с формами в React",
+            "B. Это инструмент для асинхронных запросов в React",
+            "C. Это библиотека для централизованного управления состоянием в приложении",
+            "D. Это система маршрутизации для React-приложений",
+          ],
+          correct: "C",
+        },
+        {
+          question: "Как установить Redux в React-приложение?",
+          options: [
+            "A. Использовать команду `npm install redux-react`",
+            "B. Использовать команду `npm install redux react-redux`",
+            "C. Скачивать Redux из GitHub",
+            "D. Устанавливать только через CDN",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Что такое хранилище (store) в Redux?",
+          options: [
+            "A. Это место для хранения компонента UI",
+            "B. Это объект, который управляет глобальным состоянием приложения",
+            "C. Это место для хранения данных в локальном хранилище браузера",
+            "D. Это компонент, который рендерит UI на основе состояния",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как создать редюсер (reducer) в Redux?",
+          options: [
+            "A. Создать обычную функцию, которая возвращает новое состояние на основе предыдущего состояния и действия",
+            "B. Использовать компонент `Reducer` для обработки действий",
+            "C. Использовать класс для обработки действий",
+            "D. Использовать объект с методами для изменения состояния",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как создать действие (action) в Redux?",
+          options: [
+            "A. Написать функцию, которая изменяет состояние",
+            "B. Создать объект с типом действия и данными",
+            "C. Использовать хук для выполнения действия",
+            "D. Использовать только асинхронные функции для действий",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как использовать `useSelector` и `useDispatch`?",
+          options: [
+            "A. `useSelector` позволяет получить данные из хранилища, а `useDispatch` — отправить действия в хранилище",
+            "B. `useSelector` позволяет отправлять данные, а `useDispatch` — получать их",
+            "C. `useSelector` используется только для асинхронных действий, а `useDispatch` — для синхронных",
+            "D. Оба хука используются только в классовых компонентах",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как подключить Redux к React-приложению?",
+          options: [
+            "A. Использовать компонент `Provider` для обертки всего приложения с переданным хранилищем",
+            "B. Прямо в компоненте передавать хранилище через `props`",
+            "C. Устанавливать `Redux` только внутри компонентов",
+            "D. Использовать глобальные переменные для хранения состояния",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать middleware в Redux?",
+          options: [
+            "A. Подключить middleware через конфигурацию хранилища при его создании",
+            "B. Использовать middleware только для работы с асинхронными запросами",
+            "C. Написать отдельный класс для обработки middleware",
+            "D. Middleware не поддерживаются в Redux",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `redux-thunk` для асинхронных действий?",
+          options: [
+            "A. Создать функцию, которая возвращает другую функцию с аргументом `dispatch`",
+            "B. Использовать `redux-thunk` только для синхронных действий",
+            "C. Включить `redux-thunk` как middleware, но без асинхронных функций",
+            "D. Использовать `redux-thunk` исключительно для запросов с сервером",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать `redux-saga` для асинхронных действий?",
+          options: [
+            "A. Написать генераторы, которые управляют побочными эффектами и асинхронными операциями",
+            "B. Использовать `redux-saga` для синхронных действий только",
+            "C. `redux-saga` не поддерживает асинхронные действия",
+            "D. Включить `redux-saga` как middleware без генераторов",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать TypeScript в React-проекте?",
+          options: [
+            "A. Просто добавьте `.js` файлы в проект",
+            "B. Установите `typescript` и измените расширение файлов на `.tsx`",
+            "C. Используйте `React.createElement` вместо JSX",
+            "D. Установите `TypeScript` как глобальную зависимость и не используйте JSX",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как типизировать пропсы в функциональном компоненте?",
+          options: [
+            "A. Использовать `PropTypes` для типизации",
+            "B. Применять интерфейс или тип для пропсов в качестве типа аргумента функции",
+            "C. Использовать только `useState` для типизации пропсов",
+            "D. Применить типизацию только в классовых компонентах",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как типизировать состояние в функциональном компоненте?",
+          options: [
+            "A. Использовать интерфейс для определения типа значения в `useState`",
+            "B. Типизировать состояние через `PropTypes`",
+            "C. Типизировать состояние с помощью `useRef`",
+            "D. Состояние не требует типизации в React",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как типизировать события в React?",
+          options: [
+            "A. Использовать типы событий, такие как `MouseEvent`, `ChangeEvent`, из библиотеки `react`",
+            "B. Использовать типизацию с `PropTypes` для событий",
+            "C. Использовать `useEffect` для типизации событий",
+            "D. События не требуют типизации в React",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как типизировать контекст в React?",
+          options: [
+            "A. Применить типы для значений, передаваемых в `createContext`",
+            "B. Использовать `PropTypes` для типизации контекста",
+            "C. Контекст не требует типизации",
+            "D. Типизировать контекст только в классовых компонентах",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как типизировать хуки в React?",
+          options: [
+            "A. Использовать `useState` и `useEffect` без явной типизации",
+            "B. Применить интерфейсы или типы для значений, которые хранятся в хуках",
+            "C. Типизировать хуки только в классовых компонентах",
+            "D. Типизировать хуки через `PropTypes`",
+          ],
+          correct: "B",
+        },
+        {
+          question: "Как типизировать компоненты высшего порядка (HOC)?",
+          options: [
+            "A. Типизировать HOC с использованием generics, чтобы передавать и возвращать компоненты с нужными пропсами",
+            "B. Использовать `PropTypes` для типизации HOC",
+            "C. Типизировать HOC только для асинхронных операций",
+            "D. HOC не требуют типизации в TypeScript",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как типизировать маршруты в React Router?",
+          options: [
+            "A. Использовать `Route` с типами, соответствующими ожидаемым параметрам и пропсам",
+            "B. Типизировать маршруты через `PropTypes`",
+            "C. Не нужно типизировать маршруты в React Router",
+            "D. Использовать `useHistory` для типизации маршрутов",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как типизировать Redux в React?",
+          options: [
+            "A. Использовать интерфейсы для типизации состояния и действий в Redux",
+            "B. Типизировать Redux с помощью `PropTypes`",
+            "C. Не требуется типизация Redux в TypeScript",
+            "D. Использовать `React.createContext` для типизации Redux",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как типизировать асинхронные действия в Redux?",
+          options: [
+            "A. Применить типизацию для асинхронных действий с помощью `redux-thunk` или `redux-saga`",
+            "B. Асинхронные действия не требуют типизации в Redux",
+            "C. Типизировать асинхронные действия только с `useEffect`",
+            "D. Использовать `PropTypes` для типизации асинхронных действий",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с серверным рендерингом (SSR)?",
+          options: [
+            "A. Использовать ReactDOM для рендеринга на сервере с `ReactDOMServer.renderToString()`",
+            "B. Применить стандартный React рендеринг на клиенте",
+            "C. Использовать только статическую генерацию для SSR",
+            "D. React не поддерживает серверный рендеринг",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с статической генерацией (SSG)?",
+          options: [
+            "A. Использовать `getStaticProps` и `getStaticPaths` с Next.js для генерации статических страниц",
+            "B. Использовать только серверный рендеринг",
+            "C. Применить библиотеку ReactDOM для генерации статических страниц",
+            "D. React не поддерживает статическую генерацию",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с GraphQL?",
+          options: [
+            "A. Использовать `Apollo Client` или `Relay` для интеграции с GraphQL",
+            "B. Использовать только стандартные HTTP запросы",
+            "C. Использовать `axios` для работы с GraphQL",
+            "D. React не поддерживает работу с GraphQL",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с Firebase?",
+          options: [
+            "A. Использовать Firebase SDK для работы с базой данных и аутентификацией в React",
+            "B. Использовать только Firebase Hosting для развертывания React-приложения",
+            "C. Интегрировать Firebase только через серверные функции",
+            "D. React не поддерживает работу с Firebase",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с Webpack?",
+          options: [
+            "A. Настроить Webpack для сборки проекта с React через Babel и плагин для JSX",
+            "B. Использовать только create-react-app для настройки Webpack",
+            "C. Webpack не используется в проектах с React",
+            "D. Настроить Webpack только для серверного рендеринга",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с Babel?",
+          options: [
+            "A. Настроить Babel с плагинами для JSX и ES6 для работы с React-приложением",
+            "B. Использовать Babel только для серверной части приложения",
+            "C. Babel не используется в React-проектах",
+            "D. Настроить Babel для работы только с CSS",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с Docker?",
+          options: [
+            "A. Создать Docker-образ с Node.js, установить зависимости и запустить React-приложение",
+            "B. Docker не используется с React",
+            "C. Использовать Docker только для бэкенда",
+            "D. Docker используется только для тестирования React-приложений",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с CI/CD?",
+          options: [
+            "A. Настроить CI/CD пайплайн для автоматической сборки и деплоя React-приложения через GitHub Actions, CircleCI или Jenkins",
+            "B. React не поддерживает CI/CD",
+            "C. Настроить CI/CD только для серверного рендеринга",
+            "D. Использовать CI/CD только для создания пакетов React",
+          ],
+          correct: "A",
+        },
+        {
+          question: "Как использовать React с PWA?",
+          options: [
+            "A. Использовать `create-react-app` с поддержкой PWA для создания прогрессивных веб-приложений",
+            "B. Применить только серверный рендеринг для создания PWA",
+            "C. React не поддерживает PWA",
+            "D. Использовать только статическую генерацию для создания PWA",
+          ],
+          correct: "A",
+        },
+        {
+          question:
+            "Как использовать React с библиотеками анимации, например, Framer Motion?",
+          options: [
+            "A. Установить библиотеку `framer-motion` и использовать компоненты для анимации в React",
+            "B. Использовать только встроенные CSS-аниматоры в React",
+            "C. Применять анимации только через библиотеку `react-transition-group`",
+            "D. React не поддерживает анимации",
+          ],
+          correct: "A",
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      // Динамически создаем вопросы и варианты ответов
+      questions.forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question");
+        questionDiv.innerHTML = `
+  <p>${q.question}</p>
+  <div class="options">
+    ${q.options
+      .map(
+        (opt, i) => `
+      <label>
+        <input type="checkbox" name="q${index}" value="${opt[0]}"> ${opt}
+      </label>
+    `
+      )
+      .join("")}
+  </div>
+`;
+        quizContainer.appendChild(questionDiv);
+      });
+
+      function checkAnswers() {
+        let correctCount = 0;
+        let incorrectCount = 0;
+        const incorrectAnswersList = [];
+
+        questions.forEach((q, index) => {
+          const questionDiv = quizContainer.children[index];
+          const selectedOptions = Array.from(
+            questionDiv.querySelectorAll("input:checked")
+          ).map((input) => input.value);
+          const isCorrect =
+            selectedOptions.length === 1 && selectedOptions[0] === q.correct;
+
+          if (isCorrect) {
+            correctCount++;
+            questionDiv.classList.add("correct");
+            questionDiv.classList.remove("incorrect");
+          } else {
+            incorrectCount++;
+            questionDiv.classList.add("incorrect");
+            questionDiv.classList.remove("correct");
+            incorrectAnswersList.push(q.question);
+          }
+        });
+
+        const percentage = ((correctCount / questions.length) * 100).toFixed(2);
+
+        document.getElementById("correct-count").textContent = correctCount;
+        document.getElementById("incorrect-count").textContent = incorrectCount;
+        document.getElementById("percentage").textContent = percentage;
+        document.getElementById("incorrect-answers-list").innerHTML =
+          incorrectAnswersList.map((q) => `<li>${q}</li>`).join("");
+        document.getElementById("results").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
