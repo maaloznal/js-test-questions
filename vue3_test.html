@@ -158,10 +158,10 @@
         {
           question: "13. Как использовать v-html для рендеринга HTML?",
           options: [
-            'A) <div v-html="htmlContent"></div>',
-            'B) <div v-bind:html="htmlContent"></div>',
-            'C) <div v-model="htmlContent"></div>',
-            'D) <div v-for="htmlContent"></div>',
+            'A) &lt;div v-html="htmlContent"&gt;&lt;/div&gt;',
+            'B) &lt;div v-bind:html="htmlContent"&gt;&lt;/div&gt;',
+            'C) &lt;div v-model="htmlContent"&gt;&lt;/div&gt;',
+            'D) &lt;div v-for="htmlContent"&gt;&lt;/div&gt;',
           ],
           correct: "A",
         },
@@ -178,10 +178,10 @@
         {
           question: "15. Как использовать v-pre?",
           options: [
-            "A) <div v-pre>{{ rawContent }}</div>",
-            'B) <div v-bind:pre="rawContent"></div>',
-            'C) <div v-model="rawContent"></div>',
-            'D) <div v-for="rawContent"></div>',
+            "A) &lt;div v-pre&gt;{{ rawContent }}&lt;/div&gt;",
+            'B) &lt;div v-bind:pre="rawContent"&gt;&lt;/div&gt;',
+            'C) &lt;div v-model="rawContent"&gt;&lt;/div&gt;',
+            'D) &lt;div v-for="rawContent"&gt;&lt;/div&gt;',
           ],
           correct: "A",
         },
@@ -199,10 +199,10 @@
         {
           question: "17. Как использовать v-once для однократного рендеринга?",
           options: [
-            "A) <div v-once>{{ staticContent }}</div>",
-            'B) <div v-bind:once="staticContent"></div>',
-            'C) <div v-model="staticContent"></div>',
-            'D) <div v-for="staticContent"></div>',
+            "A) &lt;div v-once&gt;{{ staticContent }}&lt;/div&gt;",
+            'B) &lt;div v-bind:once="staticContent"&gt;&lt;/div&gt;',
+            'C) &lt;div v-model="staticContent"&gt;&lt;/div&gt;',
+            'D) &lt;div v-for="staticContent"&gt;&lt;/div&gt;',
           ],
           correct: "A",
         },
@@ -219,10 +219,10 @@
         {
           question: "19. Как использовать v-bind с CSS-переменными?",
           options: [
-            "A) <div :style=\"{ '--color': colorVariable }\"></div>",
-            "B) <div v-bind:css=\"{ '--color': colorVariable }\"></div>",
-            "C) <div v-model:css=\"{ '--color': colorVariable }\"></div>",
-            "D) <div v-for:css=\"{ '--color': colorVariable }\"></div>",
+            "A) &lt;div :style=&quot;{ '--color': colorVariable }&quot;&gt;&lt;/div&gt;",
+            "B) &lt;div v-bind:css=&quot;{ '--color': colorVariable }&quot;&gt;&lt;/div&gt;",
+            "C) &lt;div v-model:css=&quot;{ '--color': colorVariable }&quot;&gt;&lt;/div&gt;",
+            "D) &lt;div v-for:css=&quot;{ '--color': colorVariable }&quot;&gt;&lt;/div&gt;",
           ],
           correct: "A",
         },
@@ -422,10 +422,10 @@
         {
           question: "39. Как использовать `teleport` в Vue 3?",
           options: [
-            "A) `<teleport to='body'><div>Content</div></teleport>`",
-            "B) `<teleport from='body'><div>Content</div></teleport>`",
-            "C) `<teleport target='body'><div>Content</div></teleport>`",
-            "D) `<teleport src='body'><div>Content</div></teleport>`",
+            "A) &lt;teleport to='body'&gt;&lt;div&gt;Content&lt;/div&gt;&lt;/teleport&gt;",
+            "B) &lt;teleport from='body'&gt;&lt;div&gt;Content&lt;/div&gt;&lt;/teleport&gt;",
+            "C) &lt;teleport target='body'&gt;&lt;div&gt;Content&lt;/div&gt;&lt;/teleport&gt;",
+            "D) &lt;teleport src='body'&gt;&lt;div&gt;Content&lt;/div&gt;&lt;/teleport&gt;",
           ],
           correct: "A",
         },
@@ -483,10 +483,10 @@
         {
           question: "45. Как использовать `v-for` для перебора массивов?",
           options: [
-            "A) `<div v-for='item in items' :key='item.id'>{{ item }}</div>`",
-            "B) `<div v-for='item of items' :key='item.id'>{{ item }}</div>`",
-            "C) `<div v-for='item each items' :key='item.id'>{{ item }}</div>`",
-            "D) `<div v-for='item in items' :key='item'>{{ item }}</div>`",
+            "A) &lt;div v-for='item in items' :key='item.id'&gt;{{ item }}&lt;/div&gt;",
+            "B) &lt;div v-for='item of items' :key='item.id'&gt;{{ item }}&lt;/div&gt;",
+            "C) &lt;div v-for='item each items' :key='item.id'&gt;{{ item }}&lt;/div&gt;",
+            "D) &lt;div v-for='item in items' :key='item'&gt;{{ item }}&lt;/div&gt;",
           ],
           correct: "A",
         },
@@ -504,10 +504,10 @@
           question:
             "47. Как использовать `v-if` и `v-else` для условного рендеринга?",
           options: [
-            "A) `<div v-if='condition'>True</div><div v-else>False</div>`",
-            "B) `<div v-if='condition'>True</div><div v-unless='condition'>False</div>`",
-            "C) `<div v-if='condition'>True</div><div v-else-if='condition'>False</div>`",
-            "D) `<div v-if='condition'>True</div><div v-else>False</div><div v-unless='condition'>Else</div>`",
+            "A) &lt;div v-if='condition'&gt;True&lt;/div&gt;&lt;div v-else&gt;False&lt;/div&gt;",
+            "B) &lt;div v-if='condition'&gt;True&lt;/div&gt;&lt;div v-unless='condition'&gt;False&lt;/div&gt;",
+            "C) &lt;div v-if='condition'&gt;True&lt;/div&gt;&lt;div v-else-if='condition'&gt;False&lt;/div&gt;",
+            "D) &lt;div v-if='condition'&gt;True&lt;/div&gt;&lt;div v-else&gt;False&lt;/div&gt;&lt;div v-unless='condition'&gt;Else&lt;/div&gt;",
           ],
           correct: "A",
         },
@@ -535,10 +535,10 @@
           question:
             "50. Как использовать `v-bind` для передачи нескольких атрибутов?",
           options: [
-            "A) `<div v-bind='attrs'>Content</div>`",
-            "B) `<div v-bind:attrs='attrs'>Content</div>`",
-            "C) `<div v-bind='attrs' class='className'>Content</div>`",
-            "D) `<div v-bind='attrs' :key='key'>Content</div>`",
+            "A) &lt;div v-bind='attrs'&gt;Content&lt;/div&gt;",
+            "B) &lt;div v-bind:attrs='attrs'&gt;Content&lt;/div&gt;",
+            "C) &lt;div v-bind='attrs' class='className'&gt;Content&lt;/div&gt;",
+            "D) &lt;div v-bind='attrs' :key='key'&gt;Content&lt;/div&gt;",
           ],
           correct: "A",
         },
@@ -762,9 +762,9 @@
         {
           question: "72. Как использовать слоты (slots) в Vue 3?",
           options: [
-            "a) `<slot></slot>` в дочернем компоненте.",
-            'b) `<slot name="name"></slot>` в дочернем компоненте.',
-            "c) `<template v-slot:name>` в родительском компоненте.",
+            "a) &lt;slot&gt;&lt;/slot&gt; в дочернем компоненте.",
+            "b) &lt;slot name='name'&gt;&lt;/slot&gt; в дочернем компоненте.",
+            "c) &lt;template v-slot:name&gt; в родительском компоненте.",
             "d) Все вышеперечисленное.",
           ],
           correct: "d",
@@ -782,10 +782,10 @@
         {
           question: "74. Как использовать динамические компоненты?",
           options: [
-            'a) `<component :is="currentComponent"></component>`',
-            'b) `<component is="currentComponent"></component>`',
-            'c) `<component v-bind:is="currentComponent"></component>`',
-            'd) `<component v-model:is="currentComponent"></component>`',
+            "a) &lt;component :is=&quot;currentComponent&quot;&gt;&lt;/component&gt;",
+            "b) &lt;component is=&quot;currentComponent&quot;&gt;&lt;/component&gt;",
+            "c) &lt;component v-bind:is=&quot;currentComponent&quot;&gt;&lt;/component&gt;",
+            "d) &lt;component v-model:is=&quot;currentComponent&quot;&gt;&lt;/component&gt;",
           ],
           correct: "a",
         },
@@ -957,20 +957,20 @@
         {
           question: "91. Как использовать router-link и router-view?",
           options: [
-            "A) <router-link to='/path'>Link</router-link> и <router-view></router-view>.",
-            "B) <router-link href='/path'>Link</router-link> и <router-view></router-view>.",
-            "C) <router-link src='/path'>Link</router-link> и <router-view></router-view>.",
-            "D) <router-link from='/path'>Link</router-link> и <router-view></router-view>.",
+            "A) &lt;router-link to='/path'&gt;Link&lt;/router-link&gt; и &lt;router-view&gt;&lt;/router-view&gt;.",
+            "B) &lt;router-link href='/path'&gt;Link&lt;/router-link&gt; и &lt;router-view&gt;&lt;/router-view&gt;.",
+            "C) &lt;router-link src='/path'&gt;Link&lt;/router-link&gt; и &lt;router-view&gt;&lt;/router-view&gt;.",
+            "D) &lt;router-link from='/path'&gt;Link&lt;/router-link&gt; и &lt;router-view&gt;&lt;/router-view&gt;.",
           ],
           correct: "A",
         },
         {
           question: "92. Как использовать именованные маршруты?",
           options: [
-            "A) <router-link :to='{ name: \"routeName\" }'>Link</router-link>.",
-            "B) <router-link :to='{ path: \"routeName\" }'>Link</router-link>.",
-            "C) <router-link :to='{ src: \"routeName\" }'>Link</router-link>.",
-            "D) <router-link :to='{ from: \"routeName\" }'>Link</router-link>.",
+            "A) &lt;router-link :to='{ name: &quot;routeName&quot; }'&gt;Link&lt;/router-link&gt;.",
+            "B) &lt;router-link :to='{ path: &quot;routeName&quot; }'&gt;Link&lt;/router-link&gt;.",
+            "C) &lt;router-link :to='{ src: &quot;routeName&quot; }'&gt;Link&lt;/router-link&gt;.",
+            "D) &lt;router-link :to='{ from: &quot;routeName&quot; }'&gt;Link&lt;/router-link&gt;.",
           ],
           correct: "A",
         },
@@ -1316,7 +1316,7 @@
           question: "126. Как использовать Vue 3 с TypeScript?",
           options: [
             "A) Установить `vue` и `typescript`, использовать `.ts` файлы",
-            'B) Добавить `lang="ts"` в `<script>` и установить `ts-loader`',
+            "B) Добавить `lang=&quot;ts&quot;` в &lt;script&gt; и установить `ts-loader`",
             "C) Использовать `@ts-check` в каждом файле Vue",
             "D) Объявить переменные с типами в `data()`",
           ],
@@ -1325,7 +1325,7 @@
         {
           question: "127. Как типизировать `props` в Vue 3?",
           options: [
-            "A) Использовать `defineProps<T>()` в `<script setup>`",
+            "A) Использовать `defineProps&lt;T&gt;()` в &lt;script setup&gt;",
             "B) Передавать `props` как `any`",
             "C) Использовать `propTypes` из Vue",
             "D) Определять типы в `data()`",
@@ -1335,7 +1335,7 @@
         {
           question: "128. Как типизировать `emits` в Vue 3?",
           options: [
-            "A) Использовать `defineEmits<T>()` в `<script setup>`",
+            "A) Использовать `defineEmits&lt;T&gt;()` в &lt;script setup&gt;",
             "B) Определять события внутри `methods`",
             "C) Использовать `this.$emit` без типизации",
             "D) Передавать события как `string`",
